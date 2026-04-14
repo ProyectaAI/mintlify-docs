@@ -1,0 +1,79 @@
+---
+title: "Connect and Use a Custom Domain for Your Proyecta App"
+description: "Connect any domain you own to your Proyecta app. HTTPS is provisioned automatically and multiple domains can point to the same app."
+sidebarTitle: "Custom Domains"
+---
+
+Every Proyecta app ships with a free `yourapp.proyecta.dev` subdomain, and you can connect a custom domain you own at any time. Proyecta handles TLS certificate provisioning automatically — once your DNS records are in place, your app is served over HTTPS with no extra steps.
+
+<Note>
+  Buying or registering new domains directly inside Proyecta is not yet supported. Purchase your domain from any registrar — Namecheap, GoDaddy, Cloudflare, Google Domains, or others — then connect it using the steps below.
+</Note>
+
+## Connect a custom domain
+
+<Steps>
+  <Step title="Open the Publish dialog">
+    Click **Publish** in the builder toolbar.
+  </Step>
+  <Step title="Choose Custom Domain">
+    Select **Custom Domain** and enter your domain name (for example, `myapp.com`).
+  </Step>
+  <Step title="Add the DNS records">
+    Proyecta displays the DNS records you need to add. Go to your domain registrar's DNS management panel and add the records shown.
+  </Step>
+  <Step title="Wait for propagation and TLS provisioning">
+    DNS changes can take anywhere from a few minutes to 48 hours to propagate. Proyecta provisions your SSL certificate automatically once your records are verified.
+  </Step>
+</Steps>
+
+## Required DNS records
+
+The exact values are displayed in the Publish dialog after you enter your domain. The record types you'll need are:
+
+| Type | Name | Value |
+| --- | --- | --- |
+| A | `@` | Provided during setup |
+| CNAME | `www` | Provided during setup |
+
+Add both records to cover both the root domain and the `www` subdomain.
+
+## Domain status
+
+After adding your records, you can track progress in the Publish dialog:
+
+| Status | What it means |
+| --- | --- |
+| **Pending Verification** | Waiting for your DNS records to be configured |
+| **Verified** | DNS records confirmed |
+| **Provisioning TLS** | SSL certificate is being set up |
+| **Active** | Your domain is live and serving your app |
+| **Failed** | Something went wrong — double-check your DNS config |
+
+## Frequently asked questions
+
+<AccordionGroup>
+  <Accordion title="Can I connect multiple domains to the same app?">
+    Yes. You can add multiple custom domains from the Publish dialog. All domains serve the same app.
+  </Accordion>
+  <Accordion title="How long does DNS propagation take?">
+    Usually minutes, but it can take up to 48 hours depending on your DNS provider and TTL settings.
+  </Accordion>
+  <Accordion title="Is HTTPS included?">
+    Yes. SSL/TLS certificates are provisioned automatically for all custom domains at no extra cost.
+  </Accordion>
+  <Accordion title="How do I remove a domain?">
+    Open the Publish dialog and delete the domain from the list.
+  </Accordion>
+</AccordionGroup>
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Free Subdomain" icon="globe" href="/apps/publish/proyecta-domain">
+    Publish instantly to yourapp.proyecta.dev with no DNS setup required.
+  </Card>
+  <Card title="Connect an Existing Domain" icon="link" href="/apps/publish/connect-existing-domain">
+    Step-by-step guide to pointing a domain you already own to your app.
+  </Card>
+</CardGroup>

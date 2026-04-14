@@ -1,0 +1,102 @@
+---
+title: "Dev Machines: Your Cloud Development Environment"
+description: "Each Proyecta project runs in its own isolated Linux container. Learn how dev machines start, what states they go through, and how to troubleshoot them."
+---
+
+Every Proyecta project gets its own dedicated **development machine** — an isolated container running a full Linux environment in the cloud. This is where your app lives during development: dependencies are installed, services run, and the live preview connects directly to this machine.
+
+## How a dev machine starts
+
+When you open a project, Proyecta automatically provisions and boots your dev machine through these steps:
+
+<Steps>
+  <Step title="Provisioning">
+    Proyecta spins up an isolated container in Proyecta Cloud.
+  </Step>
+  <Step title="Health check">
+    The system verifies the container is up and reachable.
+  </Step>
+  <Step title="Git init">
+    Your repository is cloned from GitHub into the container.
+  </Step>
+  <Step title="Environment setup">
+    Dependencies are installed (npm packages, pip requirements, etc.).
+  </Step>
+  <Step title="Starting services">
+    Your app's development server and any infrastructure services (database, cache, etc.) start up.
+  </Step>
+  <Step title="Ready">
+    The dev machine is fully online. The live preview connects and you can start building.
+  </Step>
+</Steps>
+
+You can watch provisioning progress in the **Runtime Status Bar** at the bottom of the builder.
+
+## Infrastructure services
+
+Your dev machine can run additional sidecar containers alongside your app:
+
+| Service | Port |
+|---------|------|
+| **PostgreSQL** | 5432 |
+| **Redis** | 6379 |
+| **MongoDB** | 27017 |
+| **MySQL** | 3306 |
+
+View running services and their status in the **Services** panel inside the builder.
+
+## Lifecycle states
+
+Dev machines automatically suspend and archive when not in use to conserve resources.
+
+| State | Description |
+|-------|-------------|
+| **Pending** | Waiting to be created |
+| **Initializing** | Setting up the environment |
+| **Running** | Active and healthy |
+| **Suspended** | Paused after 60 minutes of inactivity — resumes in seconds when you return |
+| **Archived** | Moved to cold storage after 24 hours suspended — takes longer to restore |
+| **Terminated** | Permanently stopped |
+
+<Note>
+  Your published app runs on separate production infrastructure. A suspended or archived dev machine has no effect on your live site.
+</Note>
+
+## Troubleshooting
+
+If the preview isn't loading or your dev machine appears stuck:
+
+<Steps>
+  <Step title="Check the Runtime Status Bar">
+    Look for error messages or a stuck provisioning step in the status bar below the toolbar.
+  </Step>
+  <Step title="Inspect logs in the Terminal">
+    Open the built-in **Terminal** and check your app's process output for errors.
+  </Step>
+  <Step title="Ask the AI">
+    Describe the problem in the chat. The AI can read logs, diagnose configuration issues, and apply fixes.
+  </Step>
+</Steps>
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="Can I access the dev machine directly?">
+    Yes. Use the built-in **Terminal** for full shell access to your development environment. You can run any command as you would on a local machine.
+  </Accordion>
+  <Accordion title="Can I get a faster dev machine?">
+    Paid plans provide machines with more RAM, CPU, and longer inactivity timeouts before suspension.
+  </Accordion>
+  <Accordion title="What happens to my app if the dev machine goes down?">
+    Nothing — published apps run on separate production-grade infrastructure. Dev machine issues are isolated to your development environment.
+  </Accordion>
+</AccordionGroup>
+
+<CardGroup cols={2}>
+  <Card title="Proyecta Cloud" icon="cloud" href="/platform/proyecta-cloud">
+    Infrastructure pricing and runtime lifecycle details.
+  </Card>
+  <Card title="Version Control" icon="code-branch" href="/apps/version-control">
+    How your code is committed and stored on GitHub.
+  </Card>
+</CardGroup>

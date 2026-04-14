@@ -1,0 +1,93 @@
+---
+title: "Get Started with Payments Using Proyecta Commerce"
+description: "Connect Stripe, create your first product, and wire checkout into your app in three steps using Proyecta's built-in payment system."
+---
+
+Proyecta Commerce gives every app a full payment system without leaving the builder. Connect Stripe once, define what you sell, and start accepting payments — subscriptions, one-time charges, or free plans — all managed from the **Commerce** panel in the builder toolbar.
+
+<Note>
+**Beta.** The core flows (Stripe Connect onboarding, products, customers, transactions, coupons) are live. Some advanced settings are still being filled in.
+</Note>
+
+## What's in the Commerce panel
+
+The Commerce panel has five tabs, each covering a different part of your payment system:
+
+| Tab | What it's for |
+|---|---|
+| **Products** | Define what you sell (subscriptions, one-time, free) |
+| **Customers** | The billable users of your app |
+| **Transactions** | Successful charges, refunds, and disputes |
+| **Coupons** | Discount codes customers can apply at checkout |
+| **Settings** | Connect your Stripe account (Payment Entity) |
+
+## Get set up in three steps
+
+<Steps>
+  <Step title="Connect Stripe">
+    Commerce uses Stripe Connect under the hood. You don't need an existing Stripe account — you'll create one through Stripe's hosted onboarding flow.
+
+    1. Open the **Commerce** panel and switch to the **Settings** tab
+    2. Click **Connect Stripe**
+    3. Enter your **Business name** and pick your **Country**
+    4. Click **Create Account**
+    5. Click **Complete Setup** to open Stripe's hosted onboarding in a new tab
+    6. Fill in your business details, banking information, and verification documents
+    7. When you return, your Payment Entity status moves from `onboarding` → `active`
+
+    <Note>
+    The connect flow currently supports: United States · United Kingdom · Canada · Australia · Germany · France · Spain · Italy · Netherlands · Japan · Singapore · Brazil · Mexico · India · Sweden. If your country isn't listed, [contact support](/company/contact).
+    </Note>
+  </Step>
+
+  <Step title="Create your first product">
+    Once your Payment Entity is `active`, switch to the **Products** tab and click **Create product**. Every product needs at least one **variant** — a pricing tier — with a price, currency, and billing type (one-time or recurring).
+
+    You can also ask the AI to do it for you:
+
+    ```text
+    Create a Pro plan at $29/month and a Business plan at $99/month.
+    ```
+
+    See [Products & Features](/apps/commerce/products-features) for the full options, including how to attach entitlements to products.
+  </Step>
+
+  <Step title="Wire checkout into your app">
+    Use the Proyecta SDK from your app code to start a checkout session and check feature access. See [Integrate Into My App](/apps/commerce/integrate-into-my-app) for complete code samples.
+  </Step>
+</Steps>
+
+## What's included
+
+<CardGroup cols={2}>
+  <Card title="Products & Features" icon="box" href="/apps/commerce/products-features">
+    One-time, recurring, and free products with variant pricing and reusable entitlement keys.
+  </Card>
+  <Card title="Coupons" icon="tag" href="/apps/commerce/coupons">
+    Percentage or fixed discounts with redemption caps, expirations, and duration controls.
+  </Card>
+  <Card title="Customers" icon="users" href="/apps/commerce/customers">
+    Billable entities with a hosted Stripe billing portal for self-service management.
+  </Card>
+  <Card title="Transactions" icon="receipt" href="/apps/commerce/transactions">
+    Successful charges, refunds, and dispute tracking — all from the Commerce panel.
+  </Card>
+  <Card title="Payouts" icon="building-columns" href="/apps/commerce/payouts">
+    Earnings settle into your connected Stripe account on Stripe's standard schedule.
+  </Card>
+  <Card title="Testing" icon="flask" href="/apps/commerce/testing">
+    Verify your integration end-to-end before going live with real customers.
+  </Card>
+</CardGroup>
+
+## What's still being filled in
+
+- **Payouts dashboard inside the builder** — today payouts are managed through your connected Stripe Dashboard
+- **Test mode toggle** with dummy cards
+- **Tax and statement descriptor settings UI**
+- **Compliance dashboard** beyond Stripe's onboarding flow
+- **In-builder support inbox** for commerce-specific issues
+
+## Pricing
+
+Proyecta Commerce uses Stripe under the hood. You pay Stripe's standard processing fees. Proyecta does not currently take an additional platform fee.

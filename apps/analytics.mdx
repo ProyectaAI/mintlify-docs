@@ -1,0 +1,69 @@
+---
+title: "Track Traffic and Performance with Built-In Analytics"
+sidebarTitle: "Analytics"
+description: "Every published Proyecta app includes analytics automatically — page views, real-user Web Vitals, and device breakdowns, no snippet required."
+---
+
+Every Proyecta app ships with analytics enabled automatically. There is nothing to install, no snippet to paste, and no third-party account required. Open the **Analytics** panel in the builder to view data from your published site.
+
+## The Analytics panel
+
+The Analytics panel has three tabs along the top:
+
+| Tab | What it shows |
+| --- | --- |
+| **Overview** | Traffic — page views, visitors, top pages, referrers, and geography |
+| **Web Vitals** | Core Web Vitals (LCP, INP, CLS) captured from real users |
+| **Devices** | Browser, operating system, and device-type breakdowns |
+
+## Accessing your analytics
+
+<Steps>
+  <Step title="Open your project">
+    Open your project in the Proyecta builder.
+  </Step>
+  <Step title="Switch to the Analytics panel">
+    Click the **Analytics** tab in the builder toolbar.
+  </Step>
+  <Step title="Explore the data">
+    The Overview tab loads by default. Use the tab bar at the top to jump between Overview, Web Vitals, and Devices.
+  </Step>
+</Steps>
+
+You'll see a spinner while the runtime comes online, then the data appears.
+
+## What data is tracked
+
+Analytics are collected automatically from your **published** site — your `*.proyecta.dev` subdomain or your custom domain. Preview traffic inside the builder is not counted.
+
+The current window is the **last 7 days**. A configurable date range picker is on the roadmap.
+
+<Note>
+  Proyecta analytics do not set cookies or track users across sites. You do not need a cookie banner for analytics alone.
+</Note>
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="Do I need to add Google Analytics or Mixpanel?">
+    No. Analytics are built in and enabled automatically for every published app. If you want a third-party provider in addition to built-in analytics, you can still ask the AI to integrate one — add your provider's API key in Environment Variables and say `"Add Google Analytics to my app"`.
+  </Accordion>
+  <Accordion title="Why don't I see any data?">
+    Analytics only track the **published** version of your app. If you haven't published yet, or if your published site hasn't had traffic in the last 7 days, the panel will be empty. Preview traffic inside the builder is not counted.
+  </Accordion>
+  <Accordion title="Can I export the data?">
+    Not yet. CSV export is on the roadmap.
+  </Accordion>
+  <Accordion title="Can I pick a different date range?">
+    Not yet. The panel shows the last 7 days. Custom ranges are on the roadmap.
+  </Accordion>
+  <Accordion title="Is visitor data anonymized?">
+    Yes. Proyecta analytics do not set cookies or track users across sites. You don't need a cookie banner for analytics alone.
+  </Accordion>
+</AccordionGroup>
+
+## Coming soon
+
+- **Custom date ranges** — switch between 24h, 30d, and fully custom date ranges.
+- **CSV export** — download your analytics data for offline analysis or reporting.
+- **Conversion tracking** — define goals and track conversions across your app's key flows.

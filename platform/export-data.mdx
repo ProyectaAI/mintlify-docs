@@ -1,0 +1,94 @@
+---
+title: "Export Your Code, Database, and Files from Proyecta"
+description: "Your code, database, files, and analytics each have a clear export path. No lock-in — here's exactly how to get everything out of Proyecta."
+sidebarTitle: "Export Data"
+---
+
+Proyecta does not lock your data inside the platform. Code, database records, files, and analytics each have an export path you can use at any time without asking for permission.
+
+## Code
+
+Every change the AI makes is committed to a **GitHub repository under your account** — a standard git repo with a full commit history. There is no Proyecta wrapper around it.
+
+To export your code:
+
+<Steps>
+  <Step title="Open your repository on GitHub">
+    Navigate to your repo on github.com.
+  </Step>
+  <Step title="Download a snapshot or clone the full history">
+    Click **Code → Download ZIP** for a point-in-time snapshot, or clone the full history with `git clone <your-repo-url>`.
+  </Step>
+</Steps>
+
+You can also push to additional remotes — GitLab, Bitbucket, a self-hosted git server — using standard git commands from the builder's Terminal. The AI commits to whatever branch is checked out; you control everything else.
+
+## Database (built-in)
+
+<Steps>
+  <Step title="Open the Database tab">
+    In the builder toolbar, click **Database** to browse your tables and records.
+  </Step>
+  <Step title="Export your data">
+    Click **More → Export** to download your data.
+  </Step>
+</Steps>
+
+<Note>
+  The built-in database export option is available on the **Business plan and above**.
+</Note>
+
+## Database (PostgreSQL, MySQL, MongoDB infrastructure services)
+
+If you've added a relational or document-oriented infrastructure service to your dev machine, use the standard dump tools from the builder's Terminal:
+
+```bash
+# PostgreSQL
+pg_dump -U postgres -d mydb > backup.sql
+
+# MySQL
+mysqldump -u root mydb > backup.sql
+
+# MongoDB
+mongodump --db mydb --out ./backup
+```
+
+You can `scp` or upload the resulting file to any destination you choose.
+
+## Files & media
+
+For files stored through the Proyecta Files API, use `proyecta.files.list()` from the SDK to enumerate all files, then fetch each `url` to download them individually. See the Files & Media documentation for the full SDK reference.
+
+## Analytics
+
+Built-in analytics are visible in the **Analytics** panel today. CSV and JSON export from the panel is on the roadmap. In the meantime, ask the AI to forward your analytics events to a third-party provider — Google Analytics, PostHog, or Mixpanel — and export from there.
+
+## Account-level data (GDPR / right to portability)
+
+For a full export of your account data — organizations, members, billing history, invoices, audit logs — [contact support](/company/contact). A self-service GDPR-style export bundle is on the roadmap.
+
+## Coming soon
+
+<AccordionGroup>
+  <Accordion title="One-click project archive">
+    Download your code, database, files, secrets metadata, and analytics in a single bundle.
+  </Accordion>
+  <Accordion title="Self-service GDPR export">
+    Generate and download a complete account-level data export without contacting support.
+  </Accordion>
+  <Accordion title="Scheduled backup exports">
+    Automatically export backups to S3, R2, or any object store on a schedule you set.
+  </Accordion>
+  <Accordion title="CSV/JSON analytics export">
+    Export your analytics data directly from the Analytics panel.
+  </Accordion>
+</AccordionGroup>
+
+<CardGroup cols={2}>
+  <Card title="Version Control" icon="code-branch" href="/apps/version-control">
+    Browse version history and clone your full git repository.
+  </Card>
+  <Card title="Dev Machines" icon="computer" href="/apps/dev-machines">
+    Access the Terminal to run database dump commands.
+  </Card>
+</CardGroup>

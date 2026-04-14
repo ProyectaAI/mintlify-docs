@@ -1,0 +1,64 @@
+---
+title: "How Payouts Work for Proyecta Commerce Earnings"
+description: "Earnings from your app settle into your Stripe Connect account automatically. Learn the payout schedule, how to check your balance, and what's coming."
+---
+
+Proyecta Commerce uses Stripe Connect under the hood. When customers pay through your app, funds settle into your connected Stripe account, and Stripe automatically pays them out to your bank on its standard schedule. You don't need to configure anything extra — completing Stripe onboarding in the **Commerce → Settings** tab sets it all up.
+
+## How payouts work today
+
+<Steps>
+  <Step title="Customer pays through checkout">
+    A customer completes a purchase via `proyecta.commerce.checkout()`.
+  </Step>
+
+  <Step title="Funds settle into your Stripe account">
+    The payment amount (minus Stripe's processing fee) settles into your connected Stripe Connect account.
+  </Step>
+
+  <Step title="Stripe pays out to your bank">
+    Stripe automatically transfers the settled funds to your bank account on its standard rolling schedule.
+  </Step>
+
+  <Step title="View payout history in Stripe">
+    See your full payout history, pending balance, and per-payout breakdown in your **Stripe Dashboard → Payouts**.
+  </Step>
+</Steps>
+
+## Payout schedule
+
+Stripe's default settlement timing depends on your country and account history:
+
+| Situation | Typical timing |
+|---|---|
+| United States | 2 business days after payment |
+| United Kingdom / EU | 2–3 business days |
+| First-time accounts | 7–14 days while Stripe verifies your account |
+
+You can adjust the payout cadence (daily, weekly, or monthly) from your Stripe Dashboard.
+
+## Check your balance
+
+Today, your balance and payout history live in your Stripe Dashboard. A built-in payout view inside the Proyecta builder — pending balance, recent payouts, and fee breakdown — is on the roadmap.
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="Can I pause payouts?">
+    Yes, from your Stripe Dashboard. Funds will accumulate in your Stripe balance until you resume payouts.
+  </Accordion>
+
+  <Accordion title="How do I change my bank account?">
+    Update your banking details in the Stripe Dashboard under your connected account's banking settings. You can also re-run the onboarding flow from **Commerce → Settings → Complete Setup** to update your business and banking information.
+  </Accordion>
+
+  <Accordion title="Are there fees on top of Stripe's processing fees?">
+    No. Proyecta does not currently take an additional platform fee. You pay Stripe's standard processing rate only.
+  </Accordion>
+</AccordionGroup>
+
+## Coming soon
+
+- **Payouts dashboard** inside the Commerce panel — pending balance, recent payouts, per-payout breakdown
+- **Instant payouts** for an additional Stripe fee
+- **Multi-currency settlement** views

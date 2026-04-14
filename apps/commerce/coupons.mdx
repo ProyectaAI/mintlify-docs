@@ -1,0 +1,97 @@
+---
+title: "Create and Manage Discount Coupons in Commerce"
+description: "Offer percentage or fixed-amount discounts at checkout, with expiration dates, redemption caps, and duration controls for subscription discounts."
+---
+
+Coupons let you offer discounts to customers at checkout — useful for launch promotions, referral incentives, or trial conversions. You manage coupons in the **Commerce → Coupons** tab in the builder, or through the SDK at `proyecta.commerce.coupons`.
+
+## Coupon fields
+
+| Field | Notes |
+|---|---|
+| `code` | The promo code customers type at checkout (e.g. `LAUNCH20`) |
+| `percent_off` *or* `amount_off` | Mutually exclusive. Percent is 1–100. Amount is in the smallest currency unit (cents). |
+| `currency` | Required for `amount_off` discounts (three-letter ISO code) |
+| `duration` | `once` (first payment only), `repeating` (for `duration_in_months`), or `forever` |
+| `duration_in_months` | Required when `duration` is `repeating` |
+| `max_redemptions` | Total redemption cap across all customers |
+| `redeem_by` | Expiration date after which the coupon stops working |
+| `name` | Display name shown to customers |
+| `active` | Toggle to enable or disable without deleting |
+
+## Create a coupon
+
+From the **Coupons** tab, click **Create coupon** and fill in the fields. Or create one via the SDK:
+
+<CodeGroup>
+
+```ts 20% off forever
+await proyecta.commerce.coupons.create({
+  code: 'LAUNCH20',
+  name: 'Launch discount',
+  percent_off: 20,
+  duration: 'forever',
+});
+```
+
+```ts $10 off, single use, expires in 30 days
+await proyecta.commerce.coupons.create({
+  code: 'WELCOME10',
+  amount_off: 1000,
+  currency: 'USD',
+  duration: 'once',
+  max_redemptions: 1,
+  redeem_by: new Date(Date.now() + 30 * 86400 * 1000).toISOString(),
+});
+```
+
+```ts 50% off for first 3 months
+await proyecta.commerce.coupons.create({
+  code: 'EARLY3',
+  percent_off: 50,
+  duration: 'repeating',
+  duration_in_months: 3,
+});
+```
+
+</CodeGroup>
+
+## Apply a coupon at checkout
+
+Pass the coupon code as `promotion_code` in your checkout call:
+
+```ts
+await proyecta.commerce.checkout({
+  customer_id,
+  line_items: [{ variant_id: 'var_pro_monthly' }],
+  success_url: 'https://myapp.com/welcome',
+  promotion_code: 'LAUNCH20',
+});
+```
+
+You can also let customers enter the code themselves — the promo code field appears automatically on the Stripe-hosted checkout page.
+
+## List, update, and deactivate
+
+```ts
+// Browse every coupon
+for await (const coupon of proyecta.commerce.coupons.list()) {
+  console.log(coupon.code, coupon.times_redeemed, '/', coupon.max_redemptions);
+}
+
+// Disable a coupon (without deleting)
+await proyecta.commerce.coupons.update('coupon_123', { active: false });
+```
+
+<Tip>
+Use `times_redeemed` to track campaign performance. It increments automatically with each redemption and is read-only.
+</Tip>
+
+## Limits and immutability
+
+<Warning>
+Codes and discount amounts are immutable. You can update the display `name` and toggle `active`, but not `percent_off`, `amount_off`, or the `code` itself. Create a new coupon if you need different terms.
+</Warning>
+
+- **Coupons apply per customer, not per order.** If a coupon is `forever` and a customer subscribes, every renewal gets the discount.
+- `times_redeemed` auto-increments and is read-only.

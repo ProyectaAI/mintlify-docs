@@ -1,0 +1,114 @@
+---
+title: "Add AI Features to Your Published App with AI Gateway"
+sidebarTitle: "AI Gateway"
+description: "Call frontier LLMs from your published app using an OpenAI-compatible API — chatbots, content generation, summarization — without managing provider keys."
+---
+
+The Proyecta AI Gateway lets the apps you build call frontier LLMs without creating accounts with each provider, managing their API keys, or fronting the cost yourself. It speaks the OpenAI Chat Completions protocol — point the OpenAI SDK at the gateway and you're ready to build.
+
+## What you can build
+
+<CardGroup cols={2}>
+  <Card title="Chatbots" icon="comments" href="/apps/ai-gateway">
+    Customer support bots, AI coaching, FAQ assistants.
+  </Card>
+  <Card title="Content generation" icon="file-pen" href="/apps/ai-gateway">
+    Descriptions, emails, summaries, drafts on demand.
+  </Card>
+  <Card title="Analysis" icon="magnifying-glass-chart" href="/apps/ai-gateway">
+    Extract insights from text, categorize data, classify inputs.
+  </Card>
+  <Card title="Personalization" icon="sliders" href="/apps/ai-gateway">
+    Recommendations, adaptive UI, user-specific responses.
+  </Card>
+</CardGroup>
+
+## Quickstart
+
+The gateway speaks the OpenAI Chat Completions protocol. Use the official OpenAI SDK with two changes — `baseURL` and the env-var name for the key:
+
+```ts
+import OpenAI from 'openai';
+
+const openai = new OpenAI({
+  baseURL: 'https://cloud.proyecta.dev/v1/ai',
+  apiKey: process.env.PROYECTA_API_KEY,
+});
+
+const response = await openai.chat.completions.create({
+  model: 'openai/gpt-4o-mini',
+  messages: [{ role: 'user', content: 'Summarize this article in 3 bullet points: …' }],
+});
+```
+
+<Tip>
+  Ask the AI builder to wire this up for you: `"Add a chatbot to my app using the Proyecta AI Gateway. The user types a question and gets a streaming response."`
+</Tip>
+
+## Streaming
+
+Streaming works like any OpenAI-compatible client:
+
+```ts
+const stream = await openai.chat.completions.create({
+  model: 'openai/gpt-4o-mini',
+  messages: [{ role: 'user', content: prompt }],
+  stream: true,
+});
+
+for await (const chunk of stream) {
+  process.stdout.write(chunk.choices[0]?.delta?.content ?? '');
+}
+```
+
+## Available models
+
+Specify the model with a `provider/model` slug:
+
+| Provider | Examples | Example slug |
+| --- | --- | --- |
+| **Anthropic** | Claude family | `anthropic/claude-sonnet-4-5` |
+| **OpenAI** | GPT family | `openai/gpt-4o-mini` |
+| **Google** | Gemini family | `google/gemini-pro` |
+| **Groq** | Hosted open-weights models | `groq/llama3-8b-8192` |
+
+## API keys, rate limits, and budgets
+
+Proyecta automatically provisions a `PROYECTA_API_KEY` for your runtime. You don't need to create one manually for the common case.
+
+For more advanced setups — multi-app organizations, model allowlists, per-key rate limits, or expiration policies — API keys can be created and managed at the organization level. Each key can carry:
+
+- A **name** (for tracking)
+- An optional **runtime scope** (lock the key to one app)
+- An **allowed model list** (e.g. only Claude models)
+- A **rate limit per minute**
+- An **expiration**
+
+Organization owners can also view **AI credits usage** for the current period — current spend, budget cap, and overage markup — visible in the builder's credits indicator.
+
+## Billing
+
+AI Gateway usage is tracked separately from the credits the AI builder consumes when it edits your app. Per-request cost is the underlying provider's rate, applied to your organization's AI credits balance.
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="What's the difference between the AI Gateway and the AI builder?">
+    The **AI builder** is the agent that writes code in the chat panel. The **AI Gateway** is what your published app calls when *its* users want an AI feature — they are separate systems with separate billing.
+  </Accordion>
+  <Accordion title="Can I bring my own provider keys?">
+    Yes. Ask the AI to remove the gateway calls and configure a direct integration with your own key in Environment Variables. You'll lose unified billing and the shared rate-limit pool.
+  </Accordion>
+  <Accordion title="Can I use it for image or voice generation?">
+    Not yet. Today the gateway is text-in / text-out. Image, voice, and video modalities are on the roadmap. For image generation during the build process, see [Image Generation](/apps/image-generation).
+  </Accordion>
+  <Accordion title="Where can I see usage and manage keys?">
+    API key management and credits usage live at the **organization** level in the Settings page. A dedicated AI Gateway panel inside the builder — with per-app keys and live usage charts — is on the roadmap.
+  </Accordion>
+</AccordionGroup>
+
+## Coming soon
+
+- **Builder panel** — create per-app keys, set model allowlists, and watch live spend without leaving the builder.
+- **Image and voice modalities** — text-to-image, text-to-speech, and speech-to-text via the same gateway.
+- **Per-runtime usage attribution** — see which apps in your organization are spending what.

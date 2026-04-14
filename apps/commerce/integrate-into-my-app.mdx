@@ -1,0 +1,119 @@
+---
+title: "Integrate Proyecta Commerce Into Your Existing App"
+description: "Wire up customers, checkout sessions, feature gates, and subscription cancellation using the Proyecta SDK — with real code examples for each operation."
+sidebarTitle: "Integrate Into My App"
+---
+
+Once you've connected Stripe and created your products, you wire commerce into your app using the `proyecta.commerce` SDK resource. The four operations you'll use most are: create a customer, start a checkout, check feature access, and cancel a subscription.
+
+Start by initializing the SDK with your API key:
+
+```ts
+import Proyecta from '@proyecta-ai/sdk';
+
+const proyecta = new Proyecta({ apiKey: process.env.PROYECTA_API_KEY });
+```
+
+## 1. Create a customer
+
+A **customer** is the billable entity in your app — usually a user, org, or project. Create one as soon as the corresponding entity is created in your database, then store the returned `id` so you can reference it in checkouts and access checks.
+
+```ts
+const customer = await proyecta.commerce.customers.create({
+  email: 'alice@example.com',
+  name: 'Alice Liddell',
+  // optional custom id, must start with 'cus_'
+});
+
+await db.users.update({ id: userId, proyectaCustomerId: customer.id });
+```
+
+You can also pass a billing address (`line1`, `line2`, `city`, `state`, `postal_code`, `country`) at creation or later via `customers.update()`.
+
+## 2. Start a checkout
+
+`commerce.checkout()` creates a Stripe-hosted checkout session and returns a URL. Redirect the customer to that URL — after payment, Stripe redirects them back to your `success_url`.
+
+```ts
+const { url } = await proyecta.commerce.checkout({
+  customer_id: customer.id,
+  line_items: [{ variant_id: 'var_pro_monthly', quantity: 1 }],
+  success_url: 'https://myapp.com/welcome',
+  cancel_url: 'https://myapp.com/pricing',
+  promotion_code: 'LAUNCH20', // optional
+});
+
+return Response.redirect(url);
+```
+
+Multiple `line_items` are supported. For subscriptions, `quantity` represents seat count.
+
+### Subscription updates
+
+If the customer already has an active subscription and you call `checkout()` again, Proyecta performs an `update` action instead of a redirect — swapping the variant in place. You can control timing and proration:
+
+```ts
+await proyecta.commerce.checkout({
+  customer_id,
+  line_items: [{ variant_id: 'var_business_monthly' }],
+  success_url: 'https://myapp.com/account',
+  charge_timing: 'immediate',           // or 'end_of_period'
+  proration_behavior: 'prorate',        // or 'none', 'full_difference'
+  plan_downgrade_behavior: 'end_of_period',
+});
+```
+
+## 3. Check feature access
+
+Before letting a customer use a premium feature, call `commerce.check()` to verify they have access:
+
+```ts
+const { has_access } = await proyecta.commerce.check({
+  customer_id: customer.id,
+  resource_id: 'feat_pro_features',
+});
+
+if (!has_access) {
+  return Response.json({ error: 'Upgrade required' }, { status: 402 });
+}
+```
+
+This is the recommended way to gate premium content. See [Products & Features](/apps/commerce/products-features) for how features are defined and attached to products.
+
+## 4. Cancel a subscription
+
+```ts
+await proyecta.commerce.cancel({
+  customer_id: customer.id,
+  subscription_id: 'sub_123',
+  cancellation_timing: 'at_billing_period_end', // or 'immediate'
+});
+```
+
+By default, the customer keeps access until the end of their current billing period.
+
+## Bonus: customer billing portal
+
+Stripe provides a hosted billing portal where customers can update payment methods, view invoices, and manage their own subscriptions. Generate the URL and redirect the customer there:
+
+```ts
+const { url } = await proyecta.commerce.customers.billingPortal(customer.id, {
+  return_url: 'https://myapp.com/account',
+});
+
+return Response.redirect(url);
+```
+
+<Tip>
+The billing portal is the fastest way to give customers self-service control. It covers invoices, cards, and cancellation without you building any additional UI.
+</Tip>
+
+## Let the AI wire it up
+
+You don't need to write this by hand. Describe what you want and the AI will generate the code:
+
+- `"Create a Proyecta customer when a user signs up. Store the proyecta_customer_id on the user record."`
+- `"Build a /pricing page that shows my Proyecta products and starts a checkout when a button is clicked."`
+- `"Gate the /admin route — only allow users whose Proyecta customer has access to feat_admin."`
+- `"Add a 'Manage billing' button on the account page that opens the Proyecta customer billing portal."`
+- `"When a user clicks Cancel Subscription, call proyecta.commerce.cancel with at_billing_period_end."`

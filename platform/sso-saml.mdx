@@ -1,0 +1,76 @@
+---
+title: "SSO and SAML: Login Options for Proyecta and Your Apps"
+description: "Learn which login methods Proyecta supports, what's coming for enterprise SAML/OIDC SSO, and how to add SSO to the apps you build."
+sidebarTitle: "SSO / SAML"
+---
+
+There are two distinct SSO questions that often come up together: how you log into Proyecta itself, and how your end users log into the app you've built. This page covers both clearly.
+
+## Logging into Proyecta
+
+Proyecta currently supports three ways to sign in to the builder and dashboard:
+
+- **Email and password** — standard credential login with email verification and password reset
+- **Google OAuth** — sign in with your Google account
+- **Microsoft OAuth** — sign in with your Microsoft account
+
+### What's not available yet
+
+SAML / OIDC SSO for the Proyecta platform itself is not yet available. When it ships, it will support the major enterprise identity providers:
+
+- Okta
+- Microsoft Entra ID (Azure AD)
+- Google Workspace
+- OneLogin
+- Any SAML 2.0 or OIDC-compatible IdP
+
+<Note>
+  If your organization needs platform-level SSO today, [contact sales](/company/contact) — there may be an early-access path available.
+</Note>
+
+### Coming soon for Proyecta platform login
+
+<AccordionGroup>
+  <Accordion title="SAML 2.0 SSO">
+    Connect your own identity provider so employees sign into Proyecta using their existing corporate credentials.
+  </Accordion>
+  <Accordion title="OIDC SSO">
+    A modern alternative to SAML for newer IdPs that support OpenID Connect.
+  </Accordion>
+  <Accordion title="SCIM provisioning">
+    Automatically create and deprovision Proyecta accounts when employees join or leave your organization.
+  </Accordion>
+  <Accordion title="Domain capture">
+    Automatically route anyone signing up with your verified domain into your organization's SSO flow.
+  </Accordion>
+  <Accordion title="Per-org SSO enforcement">
+    Require all members of your organization to authenticate through SSO — no password logins allowed.
+  </Accordion>
+</AccordionGroup>
+
+## SSO inside the apps you build
+
+If you want your end users to sign in via SSO when they use the app you've built in Proyecta, ask the AI to integrate an authentication provider directly into your app's code. There is no Proyecta-managed auth layer for user apps — you wire this up explicitly.
+
+Tell the AI what you need and it will write the integration:
+
+- **Auth0** — `"Add Auth0 to my app with SAML support so enterprise customers can SSO."`
+- **WorkOS** — `"Integrate WorkOS so my customers can connect their own IdP for SSO."`
+- **Clerk** — `"Set up Clerk authentication with SAML and SCIM."`
+- **Supabase Auth** — `"Add Supabase Auth with email/password and Google sign-in."`
+- **Auth.js (NextAuth)** — `"Wire up Auth.js with Google and a SAML provider."`
+
+Store your provider's credentials in [Environment Variables](/apps/environments-and-secrets) before asking the AI — it will read them from there and wire them into the integration.
+
+<Tip>
+  After adding authentication, run a [Security Audit](/apps/security) to check for authorization gaps before you publish.
+</Tip>
+
+<CardGroup cols={2}>
+  <Card title="Security Audit" icon="shield-halved" href="/apps/security">
+    Audit your app's authentication and authorization posture.
+  </Card>
+  <Card title="Enterprise" icon="building" href="/platform/enterprise">
+    Enterprise SSO, SCIM, and compliance options.
+  </Card>
+</CardGroup>

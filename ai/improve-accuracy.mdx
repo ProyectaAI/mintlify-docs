@@ -1,0 +1,93 @@
+---
+title: "How to Get More Accurate Results from Proyecta AI"
+sidebarTitle: "Improve Accuracy"
+description: "Four habits that consistently improve AI output: fresh threads, screenshots, outcome-focused prompts, and the Visual Editor for small changes."
+---
+
+Proyecta's AI is powerful, but how you prompt it makes a significant difference. Four habits account for the majority of accuracy improvements — follow them consistently and you'll spend far less time correcting mistakes and far more time shipping.
+
+<Note>
+  AI is a novel technology and will sometimes make mistakes. The tips below minimize errors, but cannot eliminate them entirely.
+</Note>
+
+## The four habits
+
+<Steps>
+  <Step title="Start a new thread for each new task">
+    AI agents perform worse in longer conversations. Old context from earlier requests can confuse the agent and cause it to make mistakes on unrelated tasks. Start a fresh thread whenever you move on to a new feature, a different bug, or a change in a different part of your app.
+
+    Click the **thread history** icon in the chat panel to view previous threads and create new ones.
+  </Step>
+
+  <Step title="Include screenshots">
+    Proyecta's AI reads code — it does not see the visual interface the way you do. Sharing a screenshot eliminates ambiguity about what you're looking at and what you want changed.
+
+    - **Paste a screenshot** showing the current UI you want to change
+    - **Annotate it** with arrows or circles using your OS screenshot tools
+    - **Describe what's wrong** alongside the image
+
+    <Tip>
+      Even a rough annotation — a red circle drawn with any screenshot tool — dramatically reduces misunderstandings about which element you mean.
+    </Tip>
+  </Step>
+
+  <Step title="Describe the outcome, not the implementation">
+    The AI performs best when you tell it what users should be able to do, not how the code should be structured. Over-specifying the implementation can constrain the AI into a suboptimal approach.
+
+    Frame your requests like this:
+
+    ```text
+    Users should be able to ...
+    ```
+
+    **Good examples:**
+    - "Users should be able to complete checkout in 2 clicks"
+    - "Users should see a seamless onboarding experience after login"
+    - "Users should be able to easily add or remove contacts"
+
+    Describe the end result you want and let the AI choose the best way to get there.
+  </Step>
+
+  <Step title="Use the Visual Editor for small tweaks">
+    For quick changes — fixing a typo, adjusting spacing, changing a color — the [Visual Editor](/apps/visual-edit) is faster and more precise than chat. Routing minor UI edits through chat wastes context and introduces unnecessary risk of unintended changes elsewhere.
+
+    Reserve the AI chat for logic, new features, and changes that require understanding your codebase.
+  </Step>
+</Steps>
+
+## Additional tips
+
+<AccordionGroup>
+  <Accordion title="Have Proyecta interview you">
+    If you're not sure how to phrase a complex requirement, ask Proyecta to draw out the requirements for you. Start with: "Ask me questions to understand what I want to build before writing any code."
+  </Accordion>
+
+  <Accordion title="Stress-test your proposal before building">
+    Before committing to an approach, ask: "What could go wrong with this approach?" The AI will surface edge cases and tradeoffs you might not have considered.
+  </Accordion>
+
+  <Accordion title="Break large features into sequential steps">
+    Large requests increase the chance of partial failures. Break a big feature into smaller, sequential requests — complete and verify each one before moving to the next.
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+**The AI keeps failing. What should I do?**
+
+1. Start a new thread
+2. Be more specific about the problem
+3. Include a screenshot showing the issue
+
+If the problem persists across new threads, check whether the issue is in the code itself — open the [Visual Editor](/apps/visual-edit) or your GitHub repository to inspect recent changes directly.
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="How Proyecta AI works" icon="brain" href="/ai/how-it-works">
+    Understand what the AI agent can do and how it approaches building your app.
+  </Card>
+  <Card title="Visual Editor" icon="pen-to-square" href="/apps/visual-edit">
+    Edit text, colors, and styles directly in the preview without using chat.
+  </Card>
+</CardGroup>

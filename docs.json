@@ -1,0 +1,133 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "almond",
+  "name": "Proyecta",
+  "favicon": "https://media.brand.dev/7d6fa24b-2fea-4f60-8096-616ffd02a133.png",
+  "colors": {
+    "primary": "#1080cb",
+    "light": "#b1d4ec"
+  },
+  "navbar": {
+    "primary": {
+      "type": "github",
+      "href": "https://github.com/ProyectaAI"
+    }
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "index",
+              "apps/quickstart"
+            ]
+          },
+          {
+            "group": "AI Builder",
+            "pages": [
+              "ai/how-it-works",
+              "ai/improve-accuracy"
+            ]
+          },
+          {
+            "group": "Build Your App",
+            "pages": [
+              "apps/branding-seo",
+              "apps/users-auth",
+              "apps/visual-edit",
+              "apps/backend",
+              "apps/database",
+              "apps/environments-and-secrets",
+              "apps/code-editor"
+            ]
+          },
+          {
+            "group": "Features",
+            "pages": [
+              "apps/emails",
+              "apps/push-notifications",
+              "apps/files-media-storage",
+              "apps/content-management",
+              "apps/image-generation",
+              "apps/ai-gateway",
+              "apps/internationalization",
+              "apps/analytics",
+              "apps/capture-tools"
+            ]
+          },
+          {
+            "group": "Commerce",
+            "pages": [
+              "apps/commerce/get-started",
+              "apps/commerce/products-features",
+              "apps/commerce/integrate-into-my-app",
+              "apps/commerce/coupons",
+              "apps/commerce/customers",
+              "apps/commerce/transactions",
+              "apps/commerce/payouts",
+              "apps/commerce/testing"
+            ]
+          },
+          {
+            "group": "Mobile",
+            "pages": [
+              "apps/mobile/get-started",
+              "apps/mobile/test-mobile",
+              "apps/mobile/update-mobile-app",
+              "apps/mobile/publish-app-store"
+            ]
+          },
+          {
+            "group": "Publish",
+            "pages": [
+              "apps/publish/proyecta-domain",
+              "apps/publish/buy-domain",
+              "apps/publish/connect-existing-domain",
+              "apps/publish/proyecta-showcase"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Platform",
+        "groups": [
+          {
+            "group": "Account & Team",
+            "pages": [
+              "platform/user-profile",
+              "platform/teammates",
+              "platform/billing-and-credits",
+              "platform/referrals",
+              "platform/sso-saml"
+            ]
+          },
+          {
+            "group": "Infrastructure",
+            "pages": [
+              "platform/proyecta-cloud",
+              "apps/dev-machines",
+              "apps/version-control",
+              "apps/security",
+              "platform/export-data"
+            ]
+          },
+          {
+            "group": "Enterprise",
+            "pages": [
+              "platform/enterprise",
+              "company/who-we-are",
+              "company/contact"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "footerSocials": {
+    "linkedin": "https://www.linkedin.com/company/proyecta",
+    "x": "https://x.com/proyectadev"
+  }
+}

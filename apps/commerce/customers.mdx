@@ -1,0 +1,121 @@
+---
+title: "Manage Billable Customers in Proyecta Commerce"
+description: "Create, search, and update billable entities in your app. Give customers self-service billing control through Stripe's hosted portal."
+---
+
+A customer is the entity in your app that gets charged — usually a user, an organization, or a project. You create a Proyecta customer as soon as the corresponding entity exists in your own database, then store the returned `id` so you can reference it in checkouts, feature checks, and billing portal sessions.
+
+## The Customers tab
+
+Open the **Commerce** panel and switch to **Customers** to see every billable customer for your app. Each row shows the customer's email, full name, and when they were created. Richer filtering controls in the panel are on the roadmap — more advanced search and pagination are available through the SDK today.
+
+## SDK reference
+
+Initialize the SDK before calling any customer methods:
+
+```ts
+import Proyecta from '@proyecta-ai/sdk';
+const proyecta = new Proyecta({ apiKey: process.env.PROYECTA_API_KEY });
+```
+
+### Create
+
+```ts
+const customer = await proyecta.commerce.customers.create({
+  email: 'alice@example.com',
+  name: 'Alice Liddell',
+  phone: '+14155551234',  // E.164 format
+  address: {
+    line1: '123 Wonderland Ave',
+    city: 'San Francisco',
+    state: 'CA',
+    postal_code: '94110',
+    country: 'US',
+  },
+});
+```
+
+<Tip>
+Pass a custom `id` (must start with `cus_`) if you'd rather match your own database IDs. This makes the customer fully idempotent — safe to call on every signup without creating duplicates.
+</Tip>
+
+### Read
+
+```ts
+// Single customer
+const customer = await proyecta.commerce.customers.get('cus_123');
+
+// Search and paginate
+for await (const customer of proyecta.commerce.customers.list({
+  query: 'alice',             // matches name, email, or id
+  email: 'alice@example.com', // exact email
+  sort: '-created',           // newest first
+})) {
+  console.log(customer.name, customer.email);
+}
+```
+
+### Update
+
+```ts
+await proyecta.commerce.customers.update('cus_123', {
+  email: 'new@example.com',
+  address: { ... },
+});
+```
+
+### Billing portal
+
+Stripe provides a hosted billing portal where customers can view invoices, update payment methods, and manage their own subscriptions:
+
+```ts
+const { url } = await proyecta.commerce.customers.billingPortal('cus_123', {
+  return_url: 'https://myapp.com/account',
+});
+return Response.redirect(url);
+```
+
+This is the recommended way to give customers self-service control — it covers invoices, cards, and cancellation without you building any additional UI.
+
+## Common patterns
+
+<AccordionGroup>
+  <Accordion title="Create a Proyecta customer when a user signs up">
+    ```text
+    When a new user finishes signup, call proyecta.commerce.customers.create
+    with their email and name. Store the returned id on the user record as
+    proyecta_customer_id.
+    ```
+  </Accordion>
+
+  <Accordion title="Show a 'Manage billing' button on the account page">
+    ```text
+    Add a button on /account that calls proyecta.commerce.customers.billingPortal
+    with the user's proyecta_customer_id and redirects to the returned URL.
+    ```
+  </Accordion>
+
+  <Accordion title="Build an admin customer browser">
+    ```text
+    Build an admin page at /admin/customers that lists every Proyecta customer
+    with their email, name, created date, and a link to view their detail page.
+    Use proyecta.commerce.customers.list with sort=-created.
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="Should I create a Proyecta customer for every user, or only paying ones?">
+    Create one for every user. It's free, idempotent (with a custom `id`), and means you're ready the moment a user upgrades — no scrambling to backfill customers when they're ready to pay.
+  </Accordion>
+
+  <Accordion title="Can a customer have multiple subscriptions?">
+    Yes. Subscriptions belong to customers, not the other way around. Use `commerce.checkout()` to create or update subscriptions for any customer.
+  </Accordion>
+
+  <Accordion title="How do I see what a customer is subscribed to?">
+    Today: through the embedded Stripe dashboard or by calling `commerce.check()` for each feature you care about. A subscription history view in the panel is on the roadmap.
+  </Accordion>
+</AccordionGroup>

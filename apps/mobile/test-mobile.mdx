@@ -1,0 +1,75 @@
+---
+title: "Test Your Proyecta App on Real Mobile Devices"
+description: "Catch layout bugs with the in-builder viewport switcher, then test on a real device to verify touch, notifications, and browser-specific behavior."
+sidebarTitle: "Test on Mobile"
+---
+
+Mobile testing in Proyecta works in two layers: a fast in-builder responsive preview for catching layout problems early, and real-device testing on a published URL for anything that involves actual touch input, platform quirks, or mobile-only browser behavior. Use both — they catch different things.
+
+## Responsive preview in the builder
+
+The preview panel toolbar includes a viewport switcher with three modes:
+
+| Mode | Dimensions |
+| --- | --- |
+| **Desktop** | Full window width |
+| **Tablet** | 768 × 1024 |
+| **Mobile** | 375 × 667 |
+
+Switch between them while editing to spot overflow, broken grids, and untappable buttons before you publish.
+
+<Note>
+  The viewport switcher simulates screen dimensions only. It does not simulate touch input, real-world network latency, or platform-specific browser behavior.
+</Note>
+
+## Test on a real device
+
+For anything you actually ship — touch interactions, install prompts, push notifications, camera, GPS — test on a real device against your published app URL.
+
+<Steps>
+  <Step title="Publish your app">
+    Click **Publish** in the builder toolbar to push your latest changes to your `*.proyecta.dev` subdomain.
+  </Step>
+  <Step title="Open the URL on your phone">
+    Type the URL into your phone's browser, or scan a QR code you generate from the URL.
+  </Step>
+  <Step title="Test the installed PWA experience">
+    If you've added PWA support, tap the browser menu and choose **Add to Home Screen** (iOS) or **Install app** (Android). Launch from the home screen and test the installed experience separately from the browser experience.
+  </Step>
+  <Step title="Walk through your flows">
+    Test each user flow end-to-end on the device, paying attention to the issues listed below that only surface on real hardware.
+  </Step>
+</Steps>
+
+## Things you can only catch on a real device
+
+<AccordionGroup>
+  <Accordion title="Tap target sizes">
+    Fingers are bigger than mouse pointers. Buttons and links that are easy to click on desktop can be frustrating to tap on mobile. Test every interactive element.
+  </Accordion>
+  <Accordion title="Sticky elements and viewport units">
+    Mobile browser chrome (the address bar) changes height as you scroll, causing `100vh` elements to jump. Fixed and sticky positioning behave differently than in a desktop browser.
+  </Accordion>
+  <Accordion title="Form input">
+    Mobile keyboards change the viewport height and can obscure form fields. Test autofill, keyboard types (`email`, `tel`, `number`), and autocomplete behavior.
+  </Accordion>
+  <Accordion title="iOS Safari quirks">
+    iOS Safari has its own `100vh` issues, scroll-bouncing behavior, and handling of fixed positioning. If you're targeting iOS, test specifically in mobile Safari — not just Chrome on iOS.
+  </Accordion>
+  <Accordion title="Push notification permission flow">
+    The push permission prompt only works on a published origin over HTTPS. You cannot test this in the builder preview or on `localhost`.
+  </Accordion>
+  <Accordion title="Performance on real hardware">
+    Animations, transitions, and data-heavy screens can feel smooth on a desktop but janky on a mid-range phone. Test on actual devices, not just simulators.
+  </Accordion>
+</AccordionGroup>
+
+## Testing tips
+
+<Tip>
+  Use your phone's developer tools for live debugging. Safari on macOS can connect to mobile Safari via the Develop menu; Chrome DevTools can connect to Android Chrome via USB.
+</Tip>
+
+- **Test in landscape too.** Most developers test portrait only and miss landscape-specific layout bugs.
+- **Test with low-power mode on.** Animations and timers behave differently when the device is throttling CPU.
+- **Test push notifications on a real iPhone.** Web Push on iOS only works from a PWA installed via Safari — not from a browser tab or a wrapped app.

@@ -1,0 +1,83 @@
+---
+title: "Get Started Building Mobile Apps with Proyecta"
+description: "Turn your Proyecta web app into a mobile experience. Add PWA support for home screen installs, then wrap it for the App Store or Google Play."
+sidebarTitle: "Get Started"
+---
+
+Proyecta builds web apps, and every web app you create is already mobile-accessible in any phone browser. From there, you have two paths: add Progressive Web App (PWA) support so users can install your app to their home screen, or wrap your published PWA with a tool like [PWA Builder](https://pwabuilder.com) to distribute it through the App Store, Google Play, or Microsoft Store.
+
+## What you get out of the box
+
+Every Proyecta app includes a responsive viewport switcher in the builder so you can preview your layout at Desktop, Tablet, and Mobile sizes while editing. The AI is also trained to produce responsive layouts when you prompt for them, and Proyecta's own builder UI works on phones so you can keep building on the go.
+
+<CardGroup cols={2}>
+  <Card title="Test on Mobile" icon="mobile-screen" href="/apps/mobile/test-mobile">
+    Use the viewport switcher and real-device testing to catch layout and interaction bugs.
+  </Card>
+  <Card title="Publish to App Stores" icon="store" href="/apps/mobile/publish-app-store">
+    Wrap your PWA with PWA Builder to generate Android, iOS, and Windows packages.
+  </Card>
+  <Card title="Update Your Mobile App" icon="rotate" href="/apps/mobile/update-mobile-app">
+    Most updates ship instantly. Only metadata changes need a new store submission.
+  </Card>
+  <Card title="Push Notifications" icon="bell" href="/apps/push-notifications">
+    Send push notifications to your users on supported platforms.
+  </Card>
+</CardGroup>
+
+## The PWA path
+
+For most apps, a PWA is the right answer. Ask the AI to set it up:
+
+```text
+Add PWA support to my app:
+- Web app manifest with name, icons, theme color
+- Service worker with offline cache for the app shell
+- Install prompt that appears after the user has visited 3 times
+```
+
+The AI will configure the manifest, service worker, and install prompt. Once you publish, users can:
+
+- Open your app in any mobile browser
+- Tap the browser menu and choose **Add to Home Screen** (iOS) or **Install app** (Android)
+- Launch it like a native app from their home screen
+
+PWAs on iOS 16.4+ also support Web Push — see [Push Notifications](/apps/push-notifications) for setup.
+
+## Going further: native store distribution
+
+If you need to ship to the App Store or Google Play, wrap your published PWA using PWA Builder:
+
+<Steps>
+  <Step title="Publish your app">
+    Publish to your `*.proyecta.dev` subdomain or a custom domain so your app has a live HTTPS URL.
+  </Step>
+  <Step title="Open PWA Builder">
+    Go to [pwabuilder.com](https://pwabuilder.com) and enter your published URL.
+  </Step>
+  <Step title="Generate native packages">
+    PWA Builder audits your manifest and service worker, then generates:
+    - **Android** — an `.aab` bundle for Google Play
+    - **iOS** — an Xcode project for the App Store
+    - **Windows** — an `.msix` for the Microsoft Store
+  </Step>
+  <Step title="Submit to the store">
+    Follow the submission process for each store. See [Publish to App Stores](/apps/mobile/publish-app-store) for store-specific details.
+  </Step>
+</Steps>
+
+## Limits to know
+
+<Warning>
+  Apple may reject pure WebView apps that don't add native functionality. Strengthen your case by using web APIs for push notifications, sharing, or camera access before submitting to the App Store.
+</Warning>
+
+- **Push notifications on iOS** require the user to install the PWA from Safari first — not from a wrapper.
+- **Camera, GPS, and contacts** all work via standard web APIs. Native-only APIs such as HealthKit and ARKit are not reachable from a PWA wrapper.
+
+## Coming soon
+
+- Native React Native / Expo templates for projects that need a true native shell
+- Capacitor integration as an alternative wrapping path
+- In-builder app store publishing wizard (icons, splash screens, store listing copy)
+- App store metadata management synced with the builder

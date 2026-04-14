@@ -1,0 +1,76 @@
+---
+title: "Submit Your Proyecta App to Google Play and App Store"
+description: "Wrap your published Proyecta PWA with PWA Builder to generate Android, iOS, and Windows store packages ready for store submission."
+sidebarTitle: "Publish to App Stores"
+---
+
+Proyecta builds web apps, and the recommended path to native store distribution is to wrap your published app as a Progressive Web App (PWA) using [PWA Builder](https://pwabuilder.com). PWA Builder reads your live URL, audits your manifest and service worker, and generates ready-to-submit packages for Google Play, the Apple App Store, and the Microsoft Store — without writing any native code.
+
+## Before you start
+
+Your app must be a published PWA with a valid manifest and service worker before PWA Builder can generate store packages. If you haven't set that up yet, ask the AI:
+
+```text
+Add PWA support to my app:
+- Web app manifest with name, short name, icons (192px and 512px), theme color
+- Service worker that caches the app shell for offline use
+- Install prompt
+```
+
+Then publish to your `*.proyecta.dev` subdomain or a custom domain so your app has a live HTTPS URL.
+
+## Generate store packages
+
+<Steps>
+  <Step title="Open PWA Builder">
+    Go to [pwabuilder.com](https://pwabuilder.com) and enter your published app URL.
+  </Step>
+  <Step title="Review the audit">
+    PWA Builder runs a manifest, service worker, and security audit. Address any errors it flags before proceeding.
+  </Step>
+  <Step title="Click Package for Stores">
+    Choose your target platform:
+    - **Android** — generates an `.aab` (Android App Bundle) for Google Play
+    - **iOS** — generates an Xcode project you build and submit via Xcode and Transporter
+    - **Windows** — generates an `.msix` for the Microsoft Store
+  </Step>
+  <Step title="Download and submit">
+    Download the generated package and submit it through your store's developer console.
+  </Step>
+</Steps>
+
+## Store submission details
+
+Each store has its own developer program, fee, and review process:
+
+| Store | Developer fee | Notes |
+| --- | --- | --- |
+| **Google Play** | $25 one-time | Generally permissive of PWA wrappers |
+| **Apple App Store** | $99/year | May reject apps that are purely a webview without native functionality. Use web APIs for push, sharing, or camera to strengthen your submission. |
+| **Microsoft Store** | $19 one-time (individual) | Most permissive of the three |
+
+<Warning>
+  Apple may reject pure WebView apps. Before submitting to the App Store, make sure your app uses web APIs for at least some native-feeling features — push notifications, the Web Share API, or camera access via `getUserMedia` all help demonstrate native value.
+</Warning>
+
+## Save your Android signing key
+
+When PWA Builder generates an Android package, it produces a `signing.keystore` file. **Save this file somewhere safe immediately.** Google Play requires every future update to be signed with the same key. If you lose it, you cannot update your app — you would have to republish under a new package name.
+
+The same applies to iOS provisioning profiles and Windows certificates.
+
+## Updating after launch
+
+Most updates don't require a new store submission. Because the wrapped app loads its content from your published Proyecta URL, content and feature changes are live the moment you publish in the builder. You only need to regenerate and resubmit a new package when you change:
+
+- App name, icon, or splash screen
+- Manifest entries the wrapper bakes in
+- Native permission declarations
+
+See [Update Your Mobile App](/apps/mobile/update-mobile-app) for a full breakdown of what does and doesn't require a resubmission.
+
+## Coming soon
+
+- In-builder app store wizard — generate icons, splash screens, and store listing copy from your existing branding
+- Direct PWA Builder integration so you don't have to leave Proyecta
+- App store metadata management linked to the builder

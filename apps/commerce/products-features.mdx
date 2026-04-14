@@ -1,0 +1,108 @@
+---
+title: "Define Products and Feature Entitlements in Commerce"
+description: "Create products with one or more pricing variants, then attach reusable feature keys to control access to premium functionality in your app."
+sidebarTitle: "Products & Features"
+---
+
+Products are the things you sell. Features are the access keys your app checks at runtime to decide what a customer can do. Together, they power your entire monetization and entitlement model inside Proyecta Commerce.
+
+## The three core concepts
+
+- **Product** — the thing you sell (e.g. "Pro Plan", "T-shirt", "Strategy Call")
+- **Variant** — a pricing tier or configuration of a product (e.g. "Pro Monthly $29", "Pro Annual $290", "T-shirt – Large")
+- **Feature** — a reusable entitlement key your app checks at runtime (e.g. `pro_features`, `unlimited_projects`, `api_access`)
+
+A product can have multiple variants. You attach features to a product as resources — customers who subscribe gain access to every feature on that product.
+
+## Create a product
+
+In the **Commerce → Products** tab, click **Create product**, or ask the AI:
+
+```text
+Create a Pro plan at $29/month and a Business plan at $99/month.
+```
+
+Each product needs a **display name** and at least one **variant**.
+
+### Variant fields
+
+Each variant carries its own pricing configuration:
+
+| Field | Notes |
+|---|---|
+| `name` | Display label for the variant ("Monthly", "Annual", "Large") |
+| `currency` | Three-letter ISO code — USD, EUR, GBP, JPY, BRL, MXN, INR… (130+ supported) |
+| `unit_amount` | Price in the smallest currency unit (cents). `2900` = $29.00 |
+| `recurring` | Optional — `{ interval: 'day' \| 'week' \| 'month' \| 'year', interval_count?: number }`. Omit for one-time prices. |
+| `is_default` | Mark one variant as the default checkout option |
+| `media` | Attach images or videos by CDN file ID |
+
+<Warning>
+**Pricing is immutable.** Once a variant is created, its price cannot be changed — create a new variant instead. This protects existing subscribers from accidental price changes.
+</Warning>
+
+## Features (entitlements)
+
+Features are the access-control primitive. Create a feature once, then attach it to one or more products. When a customer subscribes to a product, they automatically gain access to every feature attached to it.
+
+### Create a feature
+
+```ts
+const pro = await proyecta.commerce.features.create({
+  name: 'Pro features',
+  description: 'Unlocks the Pro tier capabilities',
+  // optional custom id, must start with 'feat_'
+});
+```
+
+### Check feature access
+
+Before letting a customer use a premium feature, verify their access with `commerce.check()`:
+
+```ts
+const { has_access } = await proyecta.commerce.check({
+  customer_id: 'cus_123',
+  resource_id: pro.id,
+});
+```
+
+This is how you gate Pro-only pages, API endpoints, or UI features in your app code. See [Integrate Into My App](/apps/commerce/integrate-into-my-app) for the full integration pattern.
+
+## Common product shapes
+
+<AccordionGroup>
+  <Accordion title="SaaS subscriptions">
+    ```text
+    Create products: Free ($0/month), Pro ($29/month, $290/year), Business ($99/month, $990/year).
+    Attach a 'pro_features' feature to Pro and Business so I can gate access in my code.
+    ```
+  </Accordion>
+
+  <Accordion title="Physical goods">
+    ```text
+    Create a T-shirt product with three variants: Small, Medium, Large at $25 each.
+    ```
+  </Accordion>
+
+  <Accordion title="Digital goods">
+    ```text
+    Create a course product with a single one-time variant at $149.
+    ```
+  </Accordion>
+
+  <Accordion title="Donations">
+    ```text
+    Create a donation product with three variants: $25, $50, $100 — all one-time.
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Inventory
+
+Proyecta Commerce does not currently track inventory for physical products. If you sell stocked items, manage stock counts in your app's database and check them in your checkout flow before allowing purchases.
+
+## Coming soon
+
+- **Checkout field customization** — collect additional info from buyers at checkout
+- **Pay-what-you-want pricing**
+- **Built-in inventory tracking** for physical products

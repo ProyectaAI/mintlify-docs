@@ -1,0 +1,105 @@
+---
+title: "Internationalize Your App for Multiple Languages"
+sidebarTitle: "Internationalization"
+description: "Localize editorial content with the Proyecta Content API, or ask the AI to wire up react-intl, next-intl, or i18next for UI strings, dates, and currencies."
+---
+
+Proyecta supports two complementary approaches to internationalizing the apps you build: the **Proyecta Content API** for editorial content that needs translation, and a **code-level i18n framework** for UI strings, dates, currencies, and runtime locale switching. Both work today, and most real apps use both.
+
+## Choosing the right approach
+
+| What you're translating | Best approach |
+| --- | --- |
+| Blog posts, FAQs, marketing pages, product descriptions | Content API locales |
+| Buttons, labels, error messages, dates, currencies | Code-level i18n framework |
+| Both | Use both — they coexist cleanly |
+
+## Option 1: Content localization (Proyecta Content API)
+
+If you're building a content-heavy site — blog, knowledge base, marketing pages, product catalog — use the Content API's built-in locale support.
+
+```ts
+// Create the locales you support
+await proyecta.content.locales.create({ /* code: 'en', name: 'English' */ });
+await proyecta.content.locales.create({ /* code: 'es', name: 'Español' */ });
+await proyecta.content.locales.create({ /* code: 'fr', name: 'Français' */ });
+
+// Then create entries that exist in multiple locales — fetch the right
+// translation per request based on the user's locale.
+```
+
+This approach is the right choice when:
+
+- Editors who don't write code need to translate content
+- You want translations to be versionable, schedulable, and previewable
+- You need locale-specific publishing (e.g. launch the German page next month)
+
+See [Content Management](/apps/content-management) for the full Content API reference.
+
+## Option 2: Code-level i18n framework
+
+For UI strings — labels, buttons, error messages, dates, currencies — ask the AI to wire up an i18n framework directly into your project:
+
+```text
+Add internationalization to my app.
+Support English, Spanish, French, and Arabic.
+Use react-intl with message catalogs in src/locales/.
+Add a language switcher in the header.
+Use locale-prefixed URLs like /en/about and /es/about.
+Make sure RTL layout works correctly for Arabic.
+```
+
+The AI will:
+
+<Steps>
+  <Step title="Pick a framework">
+    Typically `react-intl`, `next-intl`, or `i18next` depending on your stack.
+  </Step>
+  <Step title="Create catalog files">
+    One JSON file per language in `src/locales/`.
+  </Step>
+  <Step title="Wrap text">
+    Replace hardcoded strings with `<FormattedMessage />` or `t()` calls.
+  </Step>
+  <Step title="Add a language switcher">
+    A component in your header or footer for users to change locale.
+  </Step>
+  <Step title="Wire URL routing">
+    Locale-prefixed routes like `/en/about` and `/es/about`.
+  </Step>
+  <Step title="Handle RTL">
+    Set `dir="rtl"` for Arabic, Hebrew, and other right-to-left languages.
+  </Step>
+  <Step title="Format numbers, dates, and currencies">
+    Uses `Intl.DateTimeFormat` and `Intl.NumberFormat` — not hand-rolled formatting.
+  </Step>
+</Steps>
+
+## Auto-translate with the AI
+
+Once your base language catalog is in place, the AI can produce the other catalog files quickly:
+
+- `"Translate every string in src/locales/en.json into Spanish, French, German, and Japanese. Use natural, idiomatic phrasing — don't translate brand names."`
+- `"My app is fully built in English. Add Spanish translations for everything and an es/ route prefix."`
+
+<Warning>
+  For high-stakes content — legal copy, medical information, financial disclosures — have a human translator review the AI output before shipping.
+</Warning>
+
+## Combining both approaches
+
+Most real apps use both: code-level i18n for UI chrome (buttons, errors, navigation), and the Content API for editorial content (articles, product descriptions). The two coexist cleanly — your i18n framework handles catalog files at build time, the Content API serves localized entries at runtime.
+
+## Best practices
+
+1. **Pick your base language and finalize copy first.** Translating a moving target is painful.
+2. **Batch translations.** Don't translate as you go — wait until a feature is stable.
+3. **Test RTL early** if you support Arabic or Hebrew. RTL bugs hide until you look.
+4. **Include `lang` and `dir` on `<html>`.** Browsers and screen readers depend on it.
+5. **Use `Intl` for formatting.** Don't hand-roll date or currency formatting — use `Intl.DateTimeFormat` and `Intl.NumberFormat`.
+
+## Coming soon
+
+- **In-builder locale management** — pick locales, check translation coverage, and edit catalogs without leaving Proyecta.
+- **Auto-translate on save** — new strings get translated automatically as you add them.
+- **i18n-ready templates** — project templates with a framework pre-wired and example catalogs included.

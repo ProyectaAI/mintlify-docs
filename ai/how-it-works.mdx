@@ -1,0 +1,78 @@
+---
+title: "How Proyecta AI Builds, Iterates, and Deploys Your App"
+sidebarTitle: "How It Works"
+description: "Understand what Proyecta's AI agent can do — from reading your codebase and managing databases to browsing the web and deploying your app."
+---
+
+Proyecta's AI is not a code-suggestion tool — it is an autonomous agent that reads your entire codebase, plans multi-file changes, runs terminal commands, and deploys your app, all through natural conversation. Understanding what it can do (and how it does it) helps you get the most out of every prompt.
+
+## What the AI can do
+
+The AI agent has full access to your project environment. In a single conversation turn it can:
+
+- Read and write your **codebase** to build features, fix bugs, and change UI
+- Set up and manage **databases** and infrastructure services
+- Execute **terminal commands** in your development environment
+- Create and manage **git commits** and branches
+- **Generate images** — custom AI visuals and Unsplash stock photos
+- **Browse the web** — navigate pages, click elements, extract data, and take screenshots
+- Deploy your app to a **live URL** with one click
+
+## How the AI builds a feature
+
+When you send a message, Proyecta's AI agent works through a consistent sequence:
+
+<Steps>
+  <Step title="Read your codebase">
+    The agent reads your project files to understand the current state of the app before making any changes.
+  </Step>
+  <Step title="Plan the changes">
+    It maps out which files need to change and in what order to fulfill your request without breaking existing functionality.
+  </Step>
+  <Step title="Write code across multiple files">
+    The agent edits files in a coordinated way — updating components, routes, database schemas, and styles together rather than in isolation.
+  </Step>
+  <Step title="Test via the live preview">
+    It verifies the changes work by checking the live preview, catching obvious errors before surfacing results to you.
+  </Step>
+  <Step title="Commit to GitHub">
+    Every accepted change is committed to your GitHub repository automatically, so your version history stays clean and up to date.
+  </Step>
+</Steps>
+
+You can watch all of this happen in real time through the live preview panel.
+
+## Frequently asked questions
+
+<AccordionGroup>
+  <Accordion title="What AI models does Proyecta use?">
+    Proyecta uses state-of-the-art LLM models including Claude by Anthropic and GPT by OpenAI. The model is selected automatically based on the task — you don't need to choose or configure anything.
+  </Accordion>
+
+  <Accordion title="Can I share images or files with the AI?">
+    Yes. You can share visual context with the AI in several ways:
+
+    - **Upload images** — paste or drag screenshots, mockups, or designs directly into the chat
+    - **Share links** — paste a URL to reference external resources
+    - **Use voice** — click the microphone button in the chat input for speech-to-text dictation
+  </Accordion>
+
+  <Accordion title="Can the AI browse the web?">
+    Yes. The AI can open a browser session to navigate pages, click elements, fill forms, extract data, and take screenshots. It uses this capability to test your app, scrape reference content, or verify external integrations.
+  </Accordion>
+
+  <Accordion title="What is the difference between AI Chat and AI Gateway?">
+    They serve different audiences:
+
+    - **AI Chat** is what you use to build your app. It writes code, creates UI, sets up databases, and deploys.
+    - **[AI Gateway](/apps/ai-gateway)** lets you add AI features to your published app so your end users can interact with AI — chatbots, content generation, summarization, and more.
+  </Accordion>
+
+  <Accordion title="What should I do if the AI seems confused or keeps making mistakes?">
+    1. Start a new thread — click the history icon in the chat and create a new thread
+    2. Be more specific about what you want changed
+    3. Paste a screenshot showing the issue
+
+    Read the [Improve accuracy](/ai/improve-accuracy) guide for a full set of tips.
+  </Accordion>
+</AccordionGroup>

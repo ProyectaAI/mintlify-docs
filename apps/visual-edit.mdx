@@ -1,0 +1,96 @@
+---
+title: "Edit Your App's UI Visually by Clicking Elements"
+sidebarTitle: "Visual Editor"
+description: "Click any element in your app to edit its text, colors, spacing, fonts, and effects — no code required for quick property tweaks."
+---
+
+The Visual Editor lets you change your app's appearance by clicking directly on elements in the preview and adjusting their properties in a sidebar panel. It is the fastest way to fix a typo, swap a color, or fine-tune spacing without writing a line of code.
+
+## Activate the Visual Editor
+
+Switch to **Visual** mode in the builder toolbar — it sits alongside Preview, Code, Commerce, and Analytics. Hover over any element in the preview to highlight it, then click to select it and open the property panel.
+
+## Editable properties
+
+Once you select an element, the sidebar exposes:
+
+| Property | Options |
+|---|---|
+| **Text** | Edit copy directly |
+| **Font size** | xs, sm, base, lg, xl, and more |
+| **Font weight** | Light, normal, medium, semibold, bold |
+| **Text alignment** | Left, center, right, justify |
+| **Text color** | Any Tailwind color |
+| **Background color** | Any Tailwind color |
+| **Spacing** | Padding and margin on all sides |
+| **Border** | Width, color, and radius |
+| **Effects** | Shadow and opacity |
+
+Changes apply instantly to the preview and are written to your source files.
+
+## Page palette
+
+When you open the color picker, the Visual Editor surfaces a **page palette** — every Tailwind color and CSS custom property already used on the page. Pick from the palette to stay consistent with your existing design system instead of hunting for hex codes.
+
+## Ask the AI about a selected element
+
+For tweaks the property panel cannot express, type a short prompt into the **Ask AI** input at the bottom of the sidebar. The currently selected element is passed as context automatically, so prompts like:
+
+- *"Make this card more compact"*
+- *"Add a hover state with a subtle lift"*
+
+…work without you describing which element you mean.
+
+## Undo and redo
+
+Use the **Undo** button in the sidebar to revert the last property change, or use keyboard shortcuts:
+
+| Action | Mac | Windows |
+|---|---|---|
+| Undo | `Cmd+Z` | `Ctrl+Z` |
+| Redo | `Cmd+Shift+Z` | `Ctrl+Shift+Z` |
+
+The Visual Editor maintains its own undo/redo stack separate from the code history.
+
+## Static vs dynamic elements
+
+The Visual Editor works best on **static elements** — where the `className` and text content are string literals in the JSX. For **dynamic elements** (computed class names, conditional rendering, template literals), the editor automatically falls back to the AI chat with a structured prompt pre-filled so you can continue editing without extra effort.
+
+## When to use each tool
+
+<Tabs>
+  <Tab title="Visual Editor">
+    Best for small, fast tweaks on static elements:
+    - Fixing a typo
+    - Adjusting spacing or padding
+    - Changing a color
+    - Updating button text
+  </Tab>
+  <Tab title="AI Chat">
+    Best for anything structural or multi-file:
+    - Adding new sections or components
+    - Restructuring layouts
+    - Building new features
+    - Debugging unexpected behavior
+  </Tab>
+  <Tab title="Code Editor">
+    Best when you need direct file access:
+    - Reviewing generated code
+    - Precise edits the AI or Visual Editor missed
+    - Working with a specific file directly
+  </Tab>
+</Tabs>
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="How do I save changes made in the Visual Editor?">
+    Changes save automatically when you edit a property. The file is written to your runtime immediately, and the live preview updates to reflect it.
+  </Accordion>
+  <Accordion title="Why can I edit some elements but not others?">
+    Static text and `className` attributes can be edited directly. Dynamic or computed values — template literals, ternary expressions, function calls — fall back to AI chat automatically so you can still make the change.
+  </Accordion>
+  <Accordion title="What is the difference between the Visual Editor and the Code Editor?">
+    The Visual Editor is for clicking elements and adjusting properties without touching code. The [Code Editor](/apps/code-editor) gives you full VS Code in the browser for direct file editing. Use whichever fits the change you need to make.
+  </Accordion>
+</AccordionGroup>

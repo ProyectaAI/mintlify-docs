@@ -1,0 +1,53 @@
+---
+title: "Test Your Commerce Integration Before Going Live"
+description: "Verify the full purchase flow end-to-end using a low-value product and real payment, then refund yourself — until a built-in test mode toggle is available."
+---
+
+Before you launch, verify that your checkout flow, webhooks, and feature gates all work as expected. Proyecta Commerce is currently production-only — there's no in-builder toggle that switches between test and live mode. The recommended approach today is to publish your app, run a real payment with a low-value product, and immediately refund yourself.
+
+## Recommended testing flow
+
+<Steps>
+  <Step title="Create a $1 test product">
+    In the **Commerce → Products** tab, create a product with a variant priced at $1 (or the smallest unit in your currency). This keeps the real charge minimal.
+  </Step>
+
+  <Step title="Publish your app">
+    Publish your app to its `*.proyecta.dev` subdomain so the full checkout flow is reachable.
+  </Step>
+
+  <Step title="Run the checkout flow end-to-end">
+    Open the published URL in a separate browser tab and complete a real purchase with your own card.
+  </Step>
+
+  <Step title="Verify the side effects">
+    Confirm that your webhook handlers ran, the customer was created correctly, and the expected entitlements were granted.
+  </Step>
+
+  <Step title="Refund the transaction">
+    Go to **Commerce → Transactions**, find the charge, and issue a full refund.
+  </Step>
+</Steps>
+
+This gives you full end-to-end coverage of the real money path — the only way to be certain your integration works.
+
+## Why not just use Stripe test mode?
+
+Today, Proyecta's connection to Stripe runs in live mode only. A **test mode toggle** that points Commerce at Stripe's test environment — letting you use dummy cards like `4242 4242 4242 4242` — is on the roadmap.
+
+## Testing tips
+
+<Tip>
+Test the unhappy paths, not just the success flow. Declined cards, abandoned checkouts, and network errors are the most common sources of production bugs.
+</Tip>
+
+- **Test webhooks end-to-end** — make sure your subscription state updates correctly when Stripe events fire
+- **Test cancellation** — the `at_billing_period_end` flow is easy to overlook and often breaks entitlement revocation
+- **Test feature gates** — call `commerce.check()` from your actual UI flow before assuming it works
+- **Test subscription upgrades and downgrades** — verify proration and timing behave as expected
+
+## Coming soon
+
+- **Test mode toggle** in the Commerce panel — switch your Payment Entity to Stripe test mode and use dummy cards
+- **Preview-mode checkout** — exercise the full checkout flow inside the builder without publishing
+- **Webhook event simulator** — fire fake Stripe events at your runtime to test handlers in isolation

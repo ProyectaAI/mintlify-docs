@@ -1,0 +1,80 @@
+---
+title: "Manage Your App's Built-In Database and Records"
+sidebarTitle: "Database"
+description: "Every Proyecta app includes a real-time database with auto-created schema. Browse, edit, and manage records from the Database tab or via the AI."
+---
+
+Every Proyecta app comes with a built-in database — no setup, credentials, or configuration required. It is a real-time, document-oriented database with automatic reactivity: your UI updates instantly whenever data changes.
+
+## How the schema gets created
+
+When you describe a feature to the AI, it creates the schema automatically. You never need to design tables or write migration files:
+
+- `"Add a blog with posts and comments"` → creates `posts` and `comments` tables
+- `"Users should be able to save favorites"` → creates a `favorites` table with user relationships
+- `"Track order history"` → creates an `orders` table with proper indexes
+
+Describe the functionality and user experience you want — the AI handles the data model.
+
+## Browse and manage data
+
+Switch to the **Database** tab in the builder toolbar to work with your data directly:
+
+- **Table list** — all your tables with document counts
+- **Record browser** — paginated view of records in any table
+- **Delete records** — remove individual or bulk records
+
+## Use the AI to read and write data
+
+The AI is the most powerful tool for bulk and complex data operations. Ask it directly in the chat:
+
+- `"Show me the last 10 users who signed up"`
+- `"Add a test user with email test@example.com"`
+- `"Set every order from last week to status=shipped"`
+- `"Bulk insert these 20 products"`
+- `"Drop the old temp_imports table"`
+
+<Warning>
+The AI asks for your approval before running destructive operations like deleting records or dropping tables.
+</Warning>
+
+## Add infrastructure databases
+
+If you need a traditional relational or document database alongside the built-in database, add one from the **Services** panel in the builder:
+
+<CardGroup cols={2}>
+  <Card title="PostgreSQL" icon="elephant" href="/apps/dev-machines">
+    Full relational database with SQL support.
+  </Card>
+  <Card title="MySQL" icon="database" href="/apps/dev-machines">
+    Alternative relational database.
+  </Card>
+  <Card title="MongoDB" icon="leaf" href="/apps/dev-machines">
+    Document database for flexible schemas.
+  </Card>
+  <Card title="Redis" icon="bolt" href="/apps/dev-machines">
+    In-memory data store and cache.
+  </Card>
+</CardGroup>
+
+See [Dev Machines](/apps/dev-machines) for details on how infrastructure services connect to your app's runtime.
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="Is my data backed up?">
+    Data persistence and replication for the built-in database are handled automatically. For infrastructure databases (PostgreSQL, MySQL, MongoDB), automated backups are not currently available.
+  </Accordion>
+  <Accordion title="Can I export my data?">
+    Yes. Use the **Database** tab to browse and export data, or see [Export Data](/platform/export-data) for additional export options.
+  </Accordion>
+  <Accordion title="Can I edit data without going through the AI?">
+    Yes. The **Database** tab in the builder lets you browse and delete records directly without involving the AI.
+  </Accordion>
+</AccordionGroup>
+
+## Coming soon
+
+- **Inline cell editing** — edit individual field values directly in the table view
+- **CSV import** — bulk-load records from a spreadsheet
+- **Search and filter** — find records across tables without asking the AI

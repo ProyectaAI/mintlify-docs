@@ -1,0 +1,87 @@
+---
+title: "Customize Your App's Branding and SEO Settings"
+sidebarTitle: "Branding & SEO"
+description: "Update your app's favicon, meta tags, theme colors, and sitemap by prompting the AI — every change commits directly to your source files."
+---
+
+Your app's visual identity and search-engine presence are fully under your control through the Proyecta AI. Because the AI has direct access to your source tree, you can update favicons, meta tags, theme colors, sitemaps, and social previews by describing what you want in the chat — no separate settings panel required.
+
+## What you can change today
+
+Every branding and SEO change below works by asking the AI in the builder chat. The AI writes the edits directly into your source files, so they appear in [Version History](/apps/version-control) and can be reverted at any time.
+
+<CardGroup cols={2}>
+  <Card title="Favicon & tab title" icon="browser" href="/apps/branding-seo#favicon-and-browser-tab">
+    Update your site icon and the text that appears in browser tabs.
+  </Card>
+  <Card title="Meta tags & social previews" icon="share-nodes" href="/apps/branding-seo#meta-tags-and-social-previews">
+    Add Open Graph and Twitter Card tags for rich link previews.
+  </Card>
+  <Card title="Theme & visual identity" icon="palette" href="/apps/branding-seo#theme-and-visual-identity">
+    Apply brand colors, typography, and visual style across the whole app.
+  </Card>
+  <Card title="SEO audit & sitemap" icon="magnifying-glass-chart" href="/apps/branding-seo#seo">
+    Run an SEO audit, generate a sitemap, and add structured data.
+  </Card>
+</CardGroup>
+
+## Favicon and browser tab
+
+Drag an image file into the chat alongside your prompt, or describe the change in plain language:
+
+- `"Update the favicon to use my logo — here's the image"` *(drag the image into the chat)*
+- `"Change the browser tab title to 'Acme — All-in-one CRM'"`
+
+## Meta tags and social previews
+
+- `"Add Open Graph meta tags for social sharing with my tagline and hero image"`
+- `"Make sure every page has a unique meta description based on its content"`
+- `"Generate a Twitter Card image for the landing page"`
+
+## Theme and visual identity
+
+- `"Change the theme colors to navy and gold and apply them across the whole app"`
+- `"Switch to a softer, rounded visual style — more playful than corporate"`
+- `"Use the brand colors from this screenshot"` *(paste the screenshot into the chat)*
+
+## SEO
+
+- `"Do an SEO audit of my site and suggest improvements"`
+- `"Generate a sitemap.xml for my app"`
+- `"Add structured data (JSON-LD) to my landing page for rich snippets"`
+- `"Check that every page has proper meta descriptions and h1 tags"`
+
+## Tips for better results
+
+<Tip>
+**Share reference images.** Drag mockups, brand guidelines, or screenshots of sites you like into the chat. The AI picks up on visual details that are hard to describe in words.
+</Tip>
+
+<Tip>
+**Be specific about scope.** "Update the favicon" lands more reliably than "update the branding." For large changes, break the work into focused turns.
+</Tip>
+
+<Warning>
+**Preview before publishing.** Branding changes can look different at your published site than in the builder preview. Publish to your `*.proyecta.dev` subdomain and verify the result before you finalize it.
+</Warning>
+
+## Coming soon
+
+A dedicated **Branding** section in the builder settings is on the roadmap:
+
+<AccordionGroup>
+  <Accordion title="Browser tab customization">
+    A favicon picker and tab title field directly in the builder UI — no chat prompt required.
+  </Accordion>
+  <Accordion title="Social media previews">
+    Automatic Open Graph image generation from your brand assets, configurable from a single panel.
+  </Accordion>
+  <Accordion title="Built-in SEO audit tool">
+    Automated, in-app suggestions for improving discoverability without leaving the builder.
+  </Accordion>
+  <Accordion title="Automatic sitemap generation">
+    Your sitemap will be generated and updated at build time whenever you publish.
+  </Accordion>
+</AccordionGroup>
+
+Until this panel ships, the AI is the fastest path — and it typically produces results equivalent to what a dedicated UI would.

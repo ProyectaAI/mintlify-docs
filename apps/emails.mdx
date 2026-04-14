@@ -1,0 +1,159 @@
+---
+title: "Send Transactional Emails from Your Proyecta App"
+sidebarTitle: "Emails"
+description: "Verify a sender identity and send transactional email via the Proyecta SDK — no external email provider like SendGrid or Mailgun required."
+---
+
+Every Proyecta app can send transactional email out of the box. Verify a sender identity — either a single address or a whole domain — then call `proyecta.email.send()` from your app code. No third-party email provider account is required.
+
+## The Email panel
+
+Switch to the **Email** tab in the builder toolbar to manage identities and review delivery history.
+
+| Tab | What it's for |
+| --- | --- |
+| **Identities** | Add and verify sender email addresses or domains |
+| **Sent** | Browse sent emails with delivery status (sent, delivered, bounced, etc.) |
+
+From the panel you can add a new sender identity, resend verification emails, re-check DNS records for domain verification, and browse your full email delivery history — all without writing code.
+
+## Set up sending
+
+<Steps>
+  <Step title="Verify a sender identity">
+    Choose between verifying a single email address (fastest) or an entire domain (recommended for production).
+  </Step>
+  <Step title="Send your first email">
+    Call `proyecta.email.send()` with the verified address in the `from` field.
+  </Step>
+  <Step title="Track delivery">
+    Check delivery status in the **Sent** tab or query the SDK.
+  </Step>
+</Steps>
+
+## Verify an email address
+
+The simplest path is a single address — Proyecta sends a confirmation link that the owner clicks.
+
+```ts
+import Proyecta from '@proyecta-ai/sdk';
+
+const proyecta = new Proyecta({ apiKey: process.env.PROYECTA_API_KEY });
+
+const identity = await proyecta.email.identities.create({
+  type: 'email',
+  value: 'hello@myapp.com',
+});
+
+// identity.status === 'pending' until the recipient clicks the link
+```
+
+If the verification email doesn't arrive or is missed, resend it:
+
+```ts
+await proyecta.email.identities.verify(identity.id, { resend: true });
+```
+
+## Verify a whole domain
+
+For production apps, verify the entire domain so you can send from any address at it (`hello@`, `support@`, `noreply@`, etc.).
+
+```ts
+const identity = await proyecta.email.identities.create({
+  type: 'domain',
+  value: 'myapp.com',
+  mail_from_enabled: true,        // enable a custom MAIL FROM for SPF alignment
+  mail_from_subdomain: 'mail',    // defaults to 'mail'
+});
+
+// identity.verification_records contains the DNS records you need to add
+for (const record of identity.verification_records ?? []) {
+  console.log(record.type, record.name, record.value);
+}
+```
+
+Add the returned `TXT`, `CNAME`, and (if `mail_from_enabled`) `MX` records to your DNS, then trigger a recheck:
+
+```ts
+await proyecta.email.identities.verify(identity.id, {});
+// identity.status === 'verified' when all records resolve
+```
+
+<Note>
+  DNS changes can take anywhere from a few minutes to a few hours to propagate depending on your provider's TTL setting.
+</Note>
+
+## Send an email
+
+Once your identity is verified, send with:
+
+```ts
+await proyecta.email.send({
+  from: 'Acme <hello@myapp.com>',
+  to: 'customer@example.com',
+  subject: 'Your receipt from Acme',
+  html: '<p>Thanks for your order — here are the details.</p>',
+  text: 'Thanks for your order — here are the details.',
+});
+```
+
+`send` returns the sent email's ID, which you can use to look up delivery status later.
+
+### Recipients, content, and attachments
+
+<AccordionGroup>
+  <Accordion title="Recipients">
+    `to`, `cc`, and `bcc` each accept a single address or an array. Maximum **50 recipients** per send.
+  </Accordion>
+  <Accordion title="Content">
+    Provide `html`, `text`, or both. For best deliverability, always include a plain-text version alongside your HTML.
+  </Accordion>
+  <Accordion title="Attachments">
+    Pass base64-encoded file contents. Total attachment size must not exceed **40 MB** after encoding.
+  </Accordion>
+  <Accordion title="Advanced options">
+    Reply-to, custom headers, and metadata tags are all supported. See `EmailSendParams` in the SDK reference.
+  </Accordion>
+</AccordionGroup>
+
+## Track delivery
+
+List sent emails (paginated) with their latest delivery event:
+
+```ts
+const { data: emails } = await proyecta.email.list({ limit: 20 });
+for (const email of emails) {
+  console.log(email.subject, '→', email.last_event);
+  // last_event: 'sent' | 'delivered' | 'opened' | 'clicked' | 'bounced' | 'complained'
+}
+```
+
+Fetch a single email with its full HTML/text body:
+
+```ts
+const full = await proyecta.email.get('email_abc123');
+console.log(full.html, full.text, full.last_event);
+```
+
+## Let the AI wire it up
+
+You don't need to write any of this by hand. Try these prompts:
+
+- `"Verify hello@myapp.com as a sending identity and email me the verification link."`
+- `"Send a welcome email with Proyecta Email whenever a new user signs up. Use a nice HTML template."`
+- `"After a successful checkout, send the customer a receipt using proyecta.email.send."`
+- `"Show me the last 20 emails we've sent and whether they bounced."`
+
+## Caveats
+
+<Warning>
+  The `from` address must be a verified identity. Sending with an unverified address returns an error.
+</Warning>
+
+- **Monthly limits apply** based on your Proyecta plan.
+- **DNS propagation takes time.** Domain verification can take a few minutes to a few hours.
+
+## Coming soon
+
+- **Template editor** — design transactional templates visually inside the builder — no HTML required.
+- **Bulk send** — a batch send endpoint for mass mailings and marketing campaigns.

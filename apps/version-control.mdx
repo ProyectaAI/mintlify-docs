@@ -1,0 +1,86 @@
+---
+title: "Version Control & Version History in Proyecta"
+description: "Every AI change is committed to a GitHub repo you own. Browse snapshots, view previous versions, and revert using the AI or git directly."
+---
+
+Every change the AI makes to your app is committed to a **GitHub repository under your account**. Your code is always accessible, exportable, and fully under your control — Proyecta never holds your code hostage behind the platform.
+
+## Version History
+
+Open the **Version History** sheet from the builder toolbar to browse every snapshot of your project. Each entry shows:
+
+- A version number (e.g., "Version 12")
+- A short label describing what changed
+- The creation timestamp in your local timezone
+- The first 7 characters of the git commit hash
+
+If you haven't made any changes yet, the sheet shows: *"No snapshots yet — versions are created automatically after builder turns that commit changes."*
+
+## Viewing a previous version
+
+Click **View version** on any row to open that snapshot in the preview. Historical versions open in **read-only mode** — you can inspect the code and preview the result, but you can't edit from inside a historical view.
+
+While browsing a historical version, the header shows *"You are viewing version N."* Click **Return to latest** to go back to your current working state and resume editing.
+
+## Reverting to an older version
+
+One-click revert is on the roadmap. Today you have two options:
+
+### Ask the AI
+
+Tell the AI what to undo and it reads the history and applies the reverse commit for you:
+
+- `"Revert the last change"`
+- `"Go back to how the homepage looked in version 6"`
+- `"Undo everything from the last three commits"`
+
+### Use git in the Terminal
+
+For precise control, open the built-in Terminal and use standard git commands:
+
+```bash
+# View recent commits
+git log --oneline -20
+
+# Revert a specific commit (creates a new commit undoing it — safe)
+git revert <commit-hash>
+
+# Reset to a specific point (destructive — rewrites history)
+git reset --hard <commit-hash>
+```
+
+<Warning>
+  `git reset --hard` is destructive and rewrites history. Use `git revert` when you want a safe undo that preserves the commit log.
+</Warning>
+
+## GitHub
+
+Your repository is hosted on GitHub under your account. You can view it on github.com, clone it locally, or hook up any standard git workflow — CI/CD pipelines, code review, protected branches. Everything the AI commits is yours.
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="What's included in each version?">
+    Code changes, configuration updates, and schema modifications — everything that lives in the git repository. Assets stored outside the repo, such as uploaded files and database records, are not versioned.
+  </Accordion>
+  <Accordion title="Can I create branches?">
+    Yes. Open the Terminal and use `git checkout -b feature/new-homepage` (or any branch name). The AI will commit to whatever branch is currently checked out.
+  </Accordion>
+  <Accordion title="How does my team collaborate on the same repository?">
+    All team members share access to the same GitHub repository. Use standard git workflows — branches, pull requests, code review — to coordinate changes. See [Teammates](/platform/teammates) for workspace access.
+  </Accordion>
+</AccordionGroup>
+
+## Coming soon
+
+- **One-click revert** — a "Revert to this version" button in the Version History sheet that creates a new version matching an older snapshot
+- **Custom version tags** — name individual versions so they're easier to find later
+
+<CardGroup cols={2}>
+  <Card title="Dev Machines" icon="computer" href="/apps/dev-machines">
+    How your development environment clones and runs your repo.
+  </Card>
+  <Card title="Export Your Data" icon="download" href="/platform/export-data">
+    Clone or download your full repository at any time.
+  </Card>
+</CardGroup>

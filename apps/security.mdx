@@ -1,0 +1,74 @@
+---
+title: "Security Audits & Best Practices for Your App"
+description: "Run an AI-powered security audit from the Command Palette, follow the best practices here, and keep every secret in Environment Variables."
+sidebarTitle: "Security"
+---
+
+Security in Proyecta combines platform defaults, AI-driven code review, and a few habits you build into your workflow. The AI can read your entire codebase and surface vulnerabilities with prioritized findings and specific fixes — but you need to ask it to look.
+
+## Run a security audit
+
+Open the **Command Palette** (`Cmd+K` on Mac, `Ctrl+K` on Windows/Linux) and select **Run Security Audit**. The AI scans your entire codebase and returns a prioritized list of findings with actionable fixes.
+
+The audit checks for:
+
+- Hardcoded API keys, tokens, or passwords committed to source files
+- `VITE_`-prefixed environment variables that leak secrets to the browser
+- Missing server-side input validation on API endpoints
+- Authentication and authorization gaps (pages or endpoints accessible to the wrong users)
+- Unescaped user content that creates XSS risks
+- Known dependency vulnerabilities
+- Mixed content or hardcoded `http://` URLs in production code
+
+You can also run a targeted audit by typing directly in the chat:
+
+- `"Review my checkout flow for security issues"`
+- `"Check the admin pages — who can access what?"`
+- `"Look at every endpoint that writes to the database and tell me if any of them are missing authorization"`
+
+<Tip>
+  Narrow audits to a specific area are faster and more thorough than sweeping the whole app. Run a full audit before your first publish, then targeted audits after each major feature addition.
+</Tip>
+
+## Security best practices
+
+### Keep secrets secure
+
+- Store every API key, database credential, and third-party token in [Environment Variables](/apps/environments-and-secrets) — never in source files
+- Never paste secrets into chat messages
+- If a secret is exposed, revoke it with the third-party provider immediately and generate a new one
+
+### Limit access
+
+- Implement role-based permissions: `"Add admin and member roles. Only admins can access /admin pages."`
+- Restrict sensitive pages and endpoints to authenticated users
+- Always validate user input on the server side — client-side validation alone is not sufficient
+
+### Use HTTPS everywhere
+
+All published Proyecta apps are served over HTTPS automatically. SSL certificates are provisioned and renewed for you — including for custom domains once DNS is pointed correctly.
+
+### Keep dependencies updated
+
+Ask the AI periodically: `"Check my dependencies for known security vulnerabilities and upgrade the vulnerable ones."` Review what the AI changes, since dependency upgrades sometimes include breaking changes alongside the security fixes.
+
+### Audit after big changes
+
+Re-run a security audit after adding authentication, payments, file uploads, or any feature that touches user data. Before your first production publish, do a clean full-app sweep.
+
+## What Proyecta handles for you
+
+<CardGroup cols={2}>
+  <Card title="Isolated runtimes" icon="box" href="/apps/dev-machines">
+    Each project runs in its own container, so one project's issues cannot affect another user.
+  </Card>
+  <Card title="SSO & auth options" icon="shield-halved" href="/platform/sso-saml">
+    Integrate Auth0, Clerk, WorkOS, or any provider into your app via the AI.
+  </Card>
+  <Card title="Environment variables" icon="key" href="/apps/environments-and-secrets">
+    Store API keys and secrets securely — never committed to source code.
+  </Card>
+  <Card title="Custom domains with TLS" icon="lock" href="/apps/publish/buy-domain">
+    TLS certificates provisioned automatically for all custom domains.
+  </Card>
+</CardGroup>

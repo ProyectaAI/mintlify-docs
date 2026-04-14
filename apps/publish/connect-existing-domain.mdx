@@ -1,0 +1,65 @@
+---
+title: "Connect an Existing Domain to Your Proyecta App"
+description: "Point any domain you already own to your Proyecta app by adding two DNS records at your registrar. TLS certificates are provisioned automatically."
+sidebarTitle: "Connect Existing Domain"
+---
+
+If you already own a domain — whether it's registered with Namecheap, GoDaddy, Cloudflare, or any other registrar — you can connect it to your Proyecta app in a few minutes. All you need to do is add two DNS records at your registrar and Proyecta handles the rest, including provisioning your SSL certificate.
+
+## Connect your domain
+
+<Steps>
+  <Step title="Open the Publish dialog">
+    Click **Publish** in the builder toolbar.
+  </Step>
+  <Step title="Select Custom Domain">
+    Choose **Custom Domain** and enter your domain name, for example `myapp.com`.
+  </Step>
+  <Step title="Copy the DNS records">
+    Proyecta displays the A record and CNAME record values you need to add. Keep this dialog open while you go to your registrar.
+  </Step>
+  <Step title="Add records at your registrar">
+    Log in to your domain registrar's DNS management panel and add the records shown in the Publish dialog.
+
+    | Type | Name | Value |
+    | --- | --- | --- |
+    | A | `@` | Provided in Publish dialog |
+    | CNAME | `www` | Provided in Publish dialog |
+  </Step>
+  <Step title="Wait for propagation">
+    Return to the Publish dialog to monitor your domain's status. DNS changes typically take a few minutes but can take up to 48 hours.
+  </Step>
+</Steps>
+
+## What are DNS records?
+
+DNS records tell the internet where to find your website. When someone types your domain into a browser, their device looks up the DNS records for that domain to find the server to connect to. The A record points your root domain (`myapp.com`) to Proyecta's servers, and the CNAME record does the same for `www.myapp.com`.
+
+## Troubleshooting
+
+If your domain isn't working after you've added the records:
+
+1. Verify the records are saved correctly at your registrar — it's easy to accidentally add a trailing dot or extra character
+2. Wait up to 48 hours for DNS propagation to complete globally
+3. Check the domain status in the Publish dialog
+4. If the status shows **Failed**, re-check your DNS configuration and contact support if the problem persists
+
+## Frequently asked questions
+
+<AccordionGroup>
+  <Accordion title="Will www work as well as the root domain?">
+    Yes. The A record covers the root domain (`myapp.com`) and the CNAME covers `www.myapp.com`. Add both records to ensure both work.
+  </Accordion>
+  <Accordion title="Can I connect multiple domains to the same app?">
+    Yes. You can connect as many domains as you like to a single app from the Publish dialog.
+  </Accordion>
+  <Accordion title="How long until my domain starts working?">
+    Usually within minutes, but DNS changes can take up to 48 hours to fully propagate worldwide.
+  </Accordion>
+  <Accordion title="My domain works on one device but not another. What's happening?">
+    This is usually a DNS caching issue. Try clearing your browser cache, flushing your local DNS resolver, or simply waiting a few more hours for propagation to complete.
+  </Accordion>
+  <Accordion title="Can I use a free subdomain instead?">
+    Yes. All apps include a free `yourapp.proyecta.dev` subdomain with no DNS setup required. See [Free Subdomain](/apps/publish/proyecta-domain).
+  </Accordion>
+</AccordionGroup>

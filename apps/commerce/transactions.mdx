@@ -1,0 +1,52 @@
+---
+title: "View Transactions and Issue Refunds in Commerce"
+description: "Browse every charge, understand transaction states, issue full or partial refunds, and track disputed payments — all from the Commerce panel."
+---
+
+The **Commerce → Transactions** tab shows every charge tied to your app — with status, amount, currency, customer, and product references. From here you can issue refunds without leaving the builder.
+
+## Transaction states
+
+| Status | Meaning |
+|---|---|
+| `succeeded` | Payment captured successfully |
+| `pending` | Awaiting capture or async confirmation |
+| `failed` | Charge attempt failed |
+| `refunded` | Fully refunded |
+| `partially_refunded` | Some of the amount has been refunded |
+| `disputed` | Customer has disputed the charge with their bank |
+
+## Issue a refund
+
+Click any transaction in the **Transactions** tab and choose **Refund**. You can refund the full amount or a partial amount. Select a reason when prompted:
+
+- **Duplicate** — the customer was accidentally charged twice
+- **Fraudulent** — the charge was not authorized by the customer
+- **Requested by customer** — the customer asked for a refund
+
+Refunds are processed through Stripe and credited back to the customer's original payment method. Typical settlement time is 5–10 business days.
+
+## What's tracked per transaction
+
+Each transaction record includes:
+
+- `id` — unique identifier
+- `customer_id` and `product_id` — the customer and product involved
+- `amount` and `currency` — the charge amount and currency code
+- `status` — current state (see states above)
+- `refund_amount` — amount refunded, if any
+- `created_at` — timestamp of the charge
+
+## Disputes (chargebacks)
+
+If a customer disputes a charge with their bank, the transaction status flips to `disputed`. Stripe handles the dispute response flow — you'll receive an email notification and can manage evidence submission through your Stripe Dashboard.
+
+<Note>
+A native dispute response flow inside the Proyecta builder is on the roadmap. For now, handle disputes directly in your Stripe Dashboard.
+</Note>
+
+## Coming soon
+
+- **Per-transaction event timeline** — see every state change for a transaction
+- **Bulk export** of transaction history
+- **Native dispute response** UI inside the Commerce panel

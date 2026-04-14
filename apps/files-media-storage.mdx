@@ -1,0 +1,101 @@
+---
+title: "Store and Serve Files with Permanent CDN URLs"
+sidebarTitle: "Files & Media"
+description: "Browse, upload, and manage project files from the Files panel. Every uploaded file gets a permanent public CDN URL you can use in your app."
+---
+
+Proyecta handles file storage in two complementary ways: the **Files panel** in the builder lets you browse and manage uploaded files without writing code, while the **SDK Files API** gives your app programmatic access at runtime. Every uploaded file gets a permanent public CDN URL you can reference anywhere.
+
+## The Files panel
+
+Switch to the **Files** tab in the builder toolbar to open the Files panel. From here you can:
+
+- **Browse** all files uploaded to your project in a grid view
+- **Search** files by name
+- **Upload** files via the upload button (drag-and-drop supported)
+- **View details** — click any file to see its full metadata (ID, CDN URL, filename, MIME type, size, content hash)
+- **Copy CDN URL** — one click to copy a file's permanent public URL
+- **Select and bulk delete** — checkbox multiple files and delete them at once
+- **Storage usage** — see how much storage your project is using
+
+## Chat attachments
+
+The chat input also accepts images directly — paste a screenshot or drag an image file onto the input.
+
+| Property | Detail |
+| --- | --- |
+| Supported formats | PNG, JPEG, WebP, GIF |
+| Maximum size | 10 MB per image |
+
+<Note>
+  Chat attachments are part of the message, not your file library. For persistent storage, use the Files panel or the SDK.
+</Note>
+
+## The Files API (SDK)
+
+Every published Proyecta app has access to file storage through the SDK. Files uploaded via the API get a permanent public CDN URL.
+
+```ts
+import Proyecta from '@proyecta-ai/sdk';
+
+const proyecta = new Proyecta({ apiKey: process.env.PROYECTA_API_KEY });
+
+// List files uploaded to your project
+const files = await proyecta.files.list({
+  mime_type: 'image/*',
+  path: '/uploads',
+  query: 'logo',
+});
+
+// Fetch a single file by ID
+const file = await proyecta.files.get('file_abc123');
+console.log(file.url); // permanent CDN URL
+```
+
+### File object fields
+
+Each file returned by the API carries:
+
+| Field | Description |
+| --- | --- |
+| `id` | Unique identifier (prefixed `file_`) |
+| `url` | Public CDN URL |
+| `filename` | Original filename at upload |
+| `mime_type` | `image/jpeg`, `application/pdf`, etc. |
+| `size` | Size in bytes |
+| `path` | Optional folder path (e.g. `/images/blog`) |
+| `content_hash` | SHA-256 of file contents |
+| `metadata` | Arbitrary key/value metadata |
+
+## Building upload flows
+
+You don't need to write the upload logic yourself. Ask the AI to build it for you:
+
+- `"Let users upload a profile photo and store it in Proyecta Files"`
+- `"Add an image gallery where signed-in users can upload and view their photos"`
+- `"Let me attach PDF invoices to orders"`
+
+The AI wires up the upload in your app code, uses the SDK to store the file, and references the returned CDN URL wherever it's needed.
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="Can I manage files from the builder?">
+    Yes. The **Files** panel in the toolbar lets you browse, upload, search, and delete files without writing code.
+  </Accordion>
+  <Accordion title="Are the CDN URLs public?">
+    Yes. Any file returned by the Files API has a public CDN URL. Don't upload anything you don't want publicly accessible.
+  </Accordion>
+  <Accordion title="How big can a file be?">
+    Per-file limits depend on your plan. Chat attachments are capped at 10 MB per image.
+  </Accordion>
+  <Accordion title="Can I resize or crop images at the URL?">
+    On-the-fly image transforms (resize, crop, format conversion) are on the roadmap. See Coming soon below.
+  </Accordion>
+</AccordionGroup>
+
+## Coming soon
+
+- **Image transformations** — resize, crop, and convert image formats via URL parameters.
+- **Folder organization** — create and manage folder paths directly in the Files panel.
+- **Add to Chat** — drop library assets directly into the AI conversation from a file row.

@@ -1,0 +1,166 @@
+---
+title: "Manage Editorial Content with a Built-In Headless CMS"
+sidebarTitle: "Content Management"
+description: "Define collections, create entries, localize content, and schedule releases — all from the Content panel or the SDK. No external CMS needed."
+---
+
+Proyecta includes a full headless CMS. It's schema-first: you define **collections** (structured content types), then create **entries** that conform to each collection's fields. Entries can be localized into multiple languages and grouped into scheduled **releases** that go live atomically.
+
+## The Content panel
+
+Switch to the **Content** tab in the builder toolbar. The panel has four tabs:
+
+| Tab | What it's for |
+| --- | --- |
+| **Collections** | Define and manage content schemas (e.g., "Blog Post", "FAQ", "Product Spec") |
+| **Entries** | Browse, create, edit, publish, and delete entries within a collection |
+| **Locales** | Add and manage language/region locales for translated content |
+| **Releases** | Schedule groups of entries to go live (or get unpublished) at the same time |
+
+Click a collection in the Collections tab to jump straight to its entries. You can also manage everything programmatically via `proyecta.content` in the SDK.
+
+## Key concepts
+
+| Concept | What it is |
+| --- | --- |
+| **Collection** | A schema — the shape of one type of content (e.g. "Blog Post", "FAQ", "Product Spec") |
+| **Field** | A typed slot in a collection (e.g. `title: string`, `body: rich_text`, `coverImage: asset`) |
+| **Entry** | A single instance of a collection (one blog post, one FAQ item) |
+| **Asset** | An uploaded media file referenceable from entries |
+| **Locale** | A language/region the content is translated into |
+| **Release** | A group of entries scheduled to go live (or get unpublished) at the same time |
+
+## Quickstart
+
+```ts
+import Proyecta from '@proyecta-ai/sdk';
+
+const proyecta = new Proyecta({ apiKey: process.env.PROYECTA_API_KEY });
+
+// 1. Define a collection
+const blog = await proyecta.content.collections.create({
+  name: 'Blog Post',
+  // fields are defined per the Field type — title, body, coverImage, etc.
+});
+
+// 2. Create an entry
+const post = await proyecta.content.entries.create({
+  collection_id: blog.id,
+  data: {
+    title: 'Hello, world',
+    body: 'My very first post.',
+  },
+});
+
+// 3. Publish it
+await proyecta.content.entries.publish(post.id, {});
+```
+
+## Collections
+
+```ts
+// Browse collections
+for await (const collection of proyecta.content.collections.list()) {
+  console.log(collection.name);
+}
+
+// Update a collection schema
+await proyecta.content.collections.update(blog.id, { /* ... */ });
+
+// Delete a collection
+await proyecta.content.collections.delete(blog.id);
+```
+
+## Entries
+
+Entries are the actual content rows. Each entry belongs to a collection and carries data matching that collection's fields.
+
+```ts
+// Browse entries
+for await (const entry of proyecta.content.entries.list({ collection_id: blog.id })) {
+  console.log(entry);
+}
+
+// Update an entry
+await proyecta.content.entries.update(post.id, { data: { title: 'Updated title' } });
+
+// Publish an entry
+await proyecta.content.entries.publish(post.id, {});
+
+// Delete an entry
+await proyecta.content.entries.delete(post.id);
+```
+
+## Assets
+
+Asset uploads are first-class — use them to attach images, videos, or PDFs to your entries:
+
+```ts
+// Browse assets
+for await (const asset of proyecta.content.assets.list()) {
+  console.log(asset);
+}
+
+// Upload, update, or delete via assets.create / assets.update / assets.delete
+```
+
+For chat-driven file uploads (dragging files into the builder), see [Files & Media](/apps/files-media-storage).
+
+## Localization
+
+Content can be translated into multiple locales. Each locale is managed via `proyecta.content.locales`:
+
+```ts
+await proyecta.content.locales.create({
+  /* code, name, etc. */
+});
+
+for await (const locale of proyecta.content.locales.list()) {
+  console.log(locale);
+}
+```
+
+When you fetch entries, you can request a specific locale's translation. See [Internationalization](/apps/internationalization) for the broader i18n picture.
+
+## Releases (scheduled publishing)
+
+A **release** is a bundle of entries that go live (or get unpublished) at the same time. Use releases to stage a coordinated content drop — a marketing launch, a new product page, a FAQ refresh — and have everything flip atomically.
+
+```ts
+// Schedule a release for next Monday
+await proyecta.content.releases.schedule({
+  /* release id, scheduled_at, items: [{ entry_id, action: 'publish' | 'unpublish' }] */
+});
+
+// Update a release
+await proyecta.content.releases.update(releaseId, { /* ... */ });
+
+// Browse releases
+for await (const release of proyecta.content.releases.list()) {
+  console.log(release);
+}
+```
+
+## Common prompts
+
+Let the AI wire up your content layer:
+
+- `"Build a blog using the Proyecta Content API. Collection 'Blog Post' with fields: title, slug, excerpt, body (rich text), coverImage (asset), author. Public route at /blog and /blog/[slug]."`
+- `"Create an FAQ collection in Proyecta Content. Build an admin page where I can add/edit FAQs and a public /faq page."`
+- `"Set up a multi-language landing page using Proyecta Content with English and Spanish locales."`
+- `"Schedule a release of three blog posts to go live next Monday at 9am."`
+
+## When to use Content vs. Database
+
+| Use case | Use this |
+| --- | --- |
+| Editorial content (posts, FAQs, marketing copy) — needs publish/draft states, scheduling, localization | **Content API** |
+| App data (users, orders, line items) — needs query speed, transactions, real-time | **Database** |
+| Static assets in code | `public/` directory in your project |
+| User-uploaded files | **[Files & Media](/apps/files-media-storage)** |
+
+## Coming soon
+
+- **Rich-text editor** — full WYSIWYG editing for rich-text fields directly in the Content panel.
+- **Live preview** — preview content changes against your published app before releasing.
+- **Content roles** — separate editor permissions from developer permissions.

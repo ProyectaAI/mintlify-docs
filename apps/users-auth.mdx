@@ -1,0 +1,89 @@
+---
+title: "Add User Login and Authentication to Your App"
+sidebarTitle: "Users & Auth"
+description: "Proyecta Auth provides built-in login with Google, Microsoft, email OTP, and SAML/SSO — plus a customizable login page and role-based access."
+---
+
+Proyecta Auth is the built-in authentication system for every app you build. When a visitor clicks **Log in** or **Sign up**, they are redirected to a customizable login page, authenticate with their preferred method, and return to your app signed in. You control which methods appear and how the login page looks.
+
+## Supported login methods
+
+| Method | Plans |
+|---|---|
+| **Google** | All plans |
+| **Microsoft** | All plans |
+| **Email** (one-time passcode) | All plans |
+| **SAML / SSO** | Business and above |
+
+<Note>
+SAML/SSO requires configuration at the organization level. See [SSO & SAML](/platform/sso-saml) for setup instructions.
+</Note>
+
+## Add auth to your app
+
+Ask the AI to wire up authentication — it configures Proyecta Auth, creates sign-in and sign-up routes, and updates the UI in one step:
+
+```text
+Add user authentication to my app with Google and email login.
+Show a profile menu in the header when the user is signed in.
+```
+
+The AI handles the integration end-to-end. You do not need to touch configuration files or write auth code manually.
+
+## Customize the login page
+
+<Steps>
+  <Step title="Open Branding settings">
+    In the builder, go to **Branding > Customize Login**.
+  </Step>
+  <Step title="Update your brand elements">
+    Change colors, upload your logo, and adjust the layout to match your app's visual identity.
+  </Step>
+  <Step title="Save and preview">
+    Your changes apply immediately. Use the preview to verify the result before your users see it.
+  </Step>
+</Steps>
+
+## View your users
+
+Open the **Users** tab in the sidebar or switch to the **Database** tab to see all registered users, their login method, and their sign-up date.
+
+## Set up roles and permissions
+
+Ask the AI to add a role-based access control system to your app:
+
+```text
+Assign different roles to my users and let me customize
+the permissions for each role.
+```
+
+The AI adds a role system with the access rules you describe — you define what each role can see and do.
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="Can I use a custom auth provider instead of Proyecta Auth?">
+    Proyecta Auth is the built-in authentication system. Custom auth providers are not currently supported.
+  </Accordion>
+  <Accordion title="Can I use in-app login flows instead of a redirect?">
+    Not yet. All logins redirect to the Proyecta Auth login page. In-app auth flows are on the roadmap.
+  </Accordion>
+  <Accordion title="Can I hide specific login methods from the login page?">
+    Not yet. All enabled login methods are shown to users. Selective display is coming soon.
+  </Accordion>
+  <Accordion title="What if users aren't receiving OTP emails?">
+    Ask users to check their spam folder and try an alternative login method or email address. If the problem persists, ask your IT team to whitelist `proyecta.dev` and `notifications.proyecta.dev`.
+  </Accordion>
+  <Accordion title="Can I impersonate a user for support?">
+    Not yet. Use role-based access to build admin views that surface user-specific data without needing to sign in as that user.
+  </Accordion>
+</AccordionGroup>
+
+## Coming soon
+
+- **SMS OTP** — one-time passcode delivered by text message.
+- **Email & password** — traditional credentials with a password reset flow.
+- **More OAuth providers** — GitHub, Apple, and additional providers.
+- **Managed RBAC** — built-in role and permission management with a pre-built admin UI.
+- **User impersonation** — sign in as a user for debugging and support.
+- **In-app auth flows** — login without redirecting to a separate page.

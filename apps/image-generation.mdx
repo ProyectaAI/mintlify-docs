@@ -1,0 +1,77 @@
+---
+title: "Generate AI Images and Search Stock Photos in Proyecta"
+sidebarTitle: "Image Generation"
+description: "Create custom AI-generated visuals or search Unsplash stock photography directly from the AI chat — no API keys required for either."
+---
+
+Proyecta's AI can generate images during the build process. Two built-in tools are available — one for custom AI-generated visuals and one for curated stock photography. No third-party API keys are required for either.
+
+## Built-in AI image generation
+
+The AI has a `generate_image` tool that creates custom visuals on demand. Just describe what you need:
+
+- `"Generate a hero image for my landing page — abstract gradient with floating shapes"`
+- `"Create product mockup images for my e-commerce store"`
+- `"Make an illustration of a team collaborating for the about page"`
+
+Generated images are stored in your project's file storage and get a permanent CDN URL. The AI downloads them into your `public/` directory and references them in your code automatically.
+
+**Available options:** The AI can control size (`1024x1024`, `1536x1024`, `1024x1536`) and quality (`low`, `medium`, `high`).
+
+## Stock photography (Unsplash)
+
+For curated real-world photography, the AI uses `generate_unsplash_image` to search Unsplash's library:
+
+- `"Find a hero photo of a modern office space"`
+- `"Add stock photos of food for the restaurant menu page"`
+
+Unsplash images are hotlinked (not downloaded) and include proper photographer attribution automatically.
+
+## Logos and SVGs
+
+For logos and simple illustrations, the AI can generate SVGs directly without calling an image API:
+
+```text
+Generate an SVG logo for my app — minimalist, two colors, abstract mark.
+Save it to public/logo.svg and use it in the navbar.
+```
+
+## Where images are stored
+
+<CardGroup cols={3}>
+  <Card title="AI-generated images" icon="robot" href="/apps/files-media-storage">
+    Uploaded to blob storage and downloaded into your project's `public/` directory.
+  </Card>
+  <Card title="Unsplash images" icon="image" href="/apps/files-media-storage">
+    Hotlinked from Unsplash's CDN — no download needed, attribution included.
+  </Card>
+  <Card title="Runtime-uploaded images" icon="upload" href="/apps/files-media-storage">
+    Images your app's users upload go through the Files & Media SDK.
+  </Card>
+</CardGroup>
+
+## Third-party providers
+
+If you need a specific model or provider for AI image generation features within your published app (for your end users, not just during the build), the AI can integrate any service. Add your provider's API key in Environment Variables first, then ask:
+
+<Tabs>
+  <Tab title="DALL-E / OpenAI">
+    ```text
+    Add an image generation page that calls OpenAI's images API
+    ```
+  </Tab>
+  <Tab title="Stable Diffusion">
+    ```text
+    Integrate Stability AI with an SDXL model
+    ```
+  </Tab>
+  <Tab title="Replicate">
+    ```text
+    Add Replicate-powered image gen with model selection
+    ```
+  </Tab>
+</Tabs>
+
+<Note>
+  Add your provider's API key in Environment Variables before asking the AI to wire up a third-party integration.
+</Note>

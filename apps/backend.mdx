@@ -1,0 +1,47 @@
+---
+title: "Backend: Serverless API Routes, Cron Jobs, and Services"
+sidebarTitle: "Backend"
+description: "Your app runs on a serverless backend that auto-scales. Monitor function logs, scheduled jobs, and add infrastructure services like PostgreSQL or Redis."
+---
+
+Every Proyecta app includes a serverless backend that scales automatically — from zero traffic to millions of function calls per day — without any infrastructure configuration on your part. Use the **Backend** tab in the builder to monitor execution history, scheduled jobs, and running services.
+
+## What the backend supports
+
+The backend supports:
+
+- **API routes** — handle requests from your frontend with serverless functions
+- **Database access** — query and update your app's data from backend functions (see [Database](/apps/database))
+- **Scheduled functions** — run functions at a specific time, once or on a recurring schedule
+- **Cron jobs** — execute recurring tasks at any interval using cron syntax
+- **Public API** — expose endpoints for external apps and integrations to consume
+- **Infrastructure services** — add PostgreSQL, Redis, MongoDB, or MySQL as sidecar containers (see [Dev Machines](/apps/dev-machines))
+
+## Monitor backend activity
+
+Open the **Backend** tab in the builder to inspect what is running:
+
+- **Function execution history** — logs and errors for every invocation
+- **Scheduled jobs** — pending and completed one-time functions
+- **Recurring / cron jobs** — status and next-run times for repeating tasks
+
+## How scaling works
+
+The backend is serverless — it spins up on demand and scales back to zero when idle. You are never managing instances, capacity, or uptime. Fast for your users, cost-efficient for you.
+
+## Add infrastructure services
+
+If your app needs a traditional relational database, cache, or document store alongside the built-in database, add an infrastructure service from the **Services** panel in the builder:
+
+| Service | Type |
+|---|---|
+| **PostgreSQL** | Relational database |
+| **Redis** | In-memory cache |
+| **MongoDB** | Document database |
+| **MySQL** | Relational database |
+
+These services run as sidecar containers alongside your app's runtime. See [Dev Machines](/apps/dev-machines) for details on the runtime environment and how services are connected.
+
+<Note>
+Infrastructure service databases (PostgreSQL, MySQL, MongoDB, Redis) are separate from the built-in Proyecta database. See [Database](/apps/database) for information about the built-in database.
+</Note>

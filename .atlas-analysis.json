@@ -1,0 +1,146 @@
+{
+  "projectType": "saas",
+  "projectName": "Proyecta",
+  "projectDescription": "An AI-powered app builder that lets you describe what you want and get a full-stack web app with live preview, built-in backend, and one-click publishing.",
+  "theme": "almond",
+  "primaryColor": "#1080cb",
+  "lightColor": "#b1d4ec",
+  "darkColor": null,
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "Welcome",
+              "Apps/Quickstart"
+            ]
+          },
+          {
+            "group": "AI Builder",
+            "pages": [
+              "AI/How-It-Works",
+              "AI/Improve-Accuracy"
+            ]
+          },
+          {
+            "group": "Build Your App",
+            "pages": [
+              "Apps/Branding-SEO",
+              "Apps/Users-Auth",
+              "Apps/Visual-Edit",
+              "Apps/Backend",
+              "Apps/Database",
+              "Apps/Environments-And-Secrets",
+              "Apps/Code-Editor"
+            ]
+          },
+          {
+            "group": "Features",
+            "pages": [
+              "Apps/Emails",
+              "Apps/Push-Notifications",
+              "Apps/Files-Media-Storage",
+              "Apps/Content-Management",
+              "Apps/Image-Generation",
+              "Apps/AI-Gateway",
+              "Apps/Internationalization",
+              "Apps/Analytics",
+              "Apps/Capture-Tools"
+            ]
+          },
+          {
+            "group": "Commerce",
+            "pages": [
+              "Apps/Commerce/Get-Started",
+              "Apps/Commerce/Products-Features",
+              "Apps/Commerce/Integrate-Into-My-App",
+              "Apps/Commerce/Coupons",
+              "Apps/Commerce/Customers",
+              "Apps/Commerce/Transactions",
+              "Apps/Commerce/Payouts",
+              "Apps/Commerce/Testing"
+            ]
+          },
+          {
+            "group": "Mobile",
+            "pages": [
+              "Apps/Mobile/Get-Started",
+              "Apps/Mobile/Test-Mobile",
+              "Apps/Mobile/Update-Mobile-App",
+              "Apps/Mobile/Publish-App-Store"
+            ]
+          },
+          {
+            "group": "Publish",
+            "pages": [
+              "Apps/Publish/Proyecta-Domain",
+              "Apps/Publish/Buy-Domain",
+              "Apps/Publish/Connect-Existing-Domain",
+              "Apps/Publish/Proyecta-Showcase"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Platform",
+        "groups": [
+          {
+            "group": "Account & Team",
+            "pages": [
+              "Platform/User-Profile",
+              "Platform/Teammates",
+              "Platform/Billing-And-Credits",
+              "Platform/Referrals",
+              "Platform/SSO-SAML"
+            ]
+          },
+          {
+            "group": "Infrastructure",
+            "pages": [
+              "Platform/Proyecta-Cloud",
+              "Apps/Dev-Machines",
+              "Apps/Version-Control",
+              "Apps/Security",
+              "Platform/Export-Data"
+            ]
+          },
+          {
+            "group": "Enterprise",
+            "pages": [
+              "Platform/Enterprise",
+              "Company/Who-We-Are",
+              "Company/Contact"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "AI chat builder that reads and writes code, sets up databases, and deploys apps",
+    "Live preview that updates in real time as the AI makes changes",
+    "Built-in authentication with email, Google, Microsoft, and SAML/SSO",
+    "Stripe-backed commerce for subscriptions and one-time payments",
+    "One-click publishing to a free subdomain or custom domain",
+    "Mobile app generation and App Store publishing",
+    "Serverless backend with API routes, scheduled functions, and cron jobs",
+    "AI Gateway for adding AI features to published apps",
+    "Built-in CDN file storage, email, and push notifications",
+    "Version control with automatic GitHub commits"
+  ],
+  "publicApiSurface": [
+    "Proyecta SDK — Commerce checkout session and entitlement checks",
+    "Proyecta Auth — user authentication and role-based access",
+    "AI Gateway — frontier LLM access for published app users",
+    "Files & Media — CDN-backed file upload and storage",
+    "Email — transactional email from a verified domain",
+    "Push Notifications — Web Push to end-user devices",
+    "Content Management — headless CMS collections and locales",
+    "Backend API routes — serverless functions exposed as public endpoints",
+    "Analytics — built-in dashboards for published apps",
+    "Environments & Secrets — environment variable management"
+  ]
+}

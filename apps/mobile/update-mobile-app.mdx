@@ -1,0 +1,77 @@
+---
+title: "How to Update Your Published Mobile App After Launch"
+description: "Most content and feature changes go live instantly when you publish. Only app name, icon, and native shell changes require a new store submission."
+sidebarTitle: "Update Mobile App"
+---
+
+Once your Proyecta app is wrapped as a PWA and listed in an app store, updating it works in two tiers. Most of your day-to-day product work — new features, bug fixes, copy changes — ships instantly the moment you publish in the builder, with no review queue involved. Only a handful of changes require regenerating the native wrapper and going through store review again.
+
+## Tier 1: Content and functionality updates (instant)
+
+Because a wrapped PWA loads its content directly from your published Proyecta URL, changes to your app's behavior and appearance don't require a new store build.
+
+<Steps>
+  <Step title="Make your changes">
+    Edit your app in the Proyecta builder as you normally would.
+  </Step>
+  <Step title="Click Publish">
+    Click **Publish** in the builder toolbar to push your changes live.
+  </Step>
+  <Step title="Users see the update immediately">
+    The next time a user opens the app, they get the updated version — no download or update prompt required.
+  </Step>
+</Steps>
+
+Changes that ship instantly include:
+
+- New pages and features
+- Bug fixes
+- Copy and image changes
+- Backend logic and database schema changes
+- Most styling tweaks
+
+<Tip>
+  This is one of the biggest advantages of the PWA-wrapper model. You're not waiting on App Store or Google Play review queues for normal product work.
+</Tip>
+
+## Tier 2: Native shell updates (new submission required)
+
+Some changes are baked into the native wrapper itself and require you to regenerate the package and submit a new version to the store.
+
+Changes that require a new submission:
+
+- **App name** as it appears under the icon
+- **App icon**
+- **Splash screen**
+- **Manifest entries** the wrapper bakes in (theme color, display mode, orientation lock)
+- **Native permission declarations** (camera, location, or other permissions that need new entries in `Info.plist` or `AndroidManifest.xml`)
+- **Wrapper version bumps**
+
+<Steps>
+  <Step title="Regenerate the package">
+    Go to [pwabuilder.com](https://pwabuilder.com), enter your published URL, and generate a new native package.
+  </Step>
+  <Step title="Sign with your original key">
+    Sign the package with the same signing key you used for the first submission. Using a different key will cause the submission to be rejected.
+  </Step>
+  <Step title="Submit for review">
+    Upload through Google Play Console, App Store Connect, or Microsoft Partner Center and wait for review.
+  </Step>
+</Steps>
+
+## Protect your signing key
+
+<Warning>
+  For Android apps, you must sign every update with the same `signing.keystore` file used for the original submission. If you lose this file, Google Play will not accept further updates — you would have to publish a brand-new app under a different package name and ask users to migrate. Back up your keystore the moment you generate it.
+</Warning>
+
+The same applies to iOS provisioning profiles and Windows certificates. Store them somewhere safe and backed up, separate from your project files.
+
+## Versioning tip
+
+When you do submit a new native package, keep your app's user-facing version number in sync with your Proyecta deploy. This makes it much easier to match crash reports and user feedback to the correct build.
+
+## Coming soon
+
+- Update wizard in the builder that handles regeneration, signing, and submission for you
+- Version manifest tracking synced with Proyecta version history

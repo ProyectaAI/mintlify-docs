@@ -1,0 +1,86 @@
+---
+title: "Give the AI Precise Visual Context with Capture Tools"
+sidebarTitle: "Capture Tools"
+description: "Select elements, annotate screenshots, record interactions, and paste images directly into chat to give the AI the exact visual context it needs."
+---
+
+The more precise the visual context you give the AI, the better its edits. Proyecta ships four capture tools — element selection, annotation, screen recording, and direct image pasting — each suited to different situations.
+
+## Select an element (Visual Editor)
+
+In **Visual Editor** mode, every element in the preview becomes clickable. Hover to highlight, click to select. The selected element is highlighted with an overlay and its editable properties appear in the sidebar panel.
+
+Once an element is selected, you can either:
+
+- **Edit it directly** — change properties inline without writing any prompt
+- **Ask the AI about it** — the selection is passed as context so you can say `"make this button bigger"` or `"move this section above the hero"` and the AI knows exactly what you mean
+
+Dynamic elements (computed classNames, conditional rendering, expressions) fall back to the AI chat automatically with a structured prompt.
+
+<Tip>
+  Use Visual Editor mode whenever you want to point the AI at a specific button or piece of text. A precise, structured reference is far more accurate than describing the element in words.
+</Tip>
+
+## Annotate a screenshot
+
+Click the **annotate button** (crosshair icon) in the chat input to capture a screenshot of the current preview and open the annotation editor.
+
+**Available annotation tools:**
+
+| Tool | Use it to |
+| --- | --- |
+| **Arrow** | Point at a specific element |
+| **Rectangle** | Draw a box around an area |
+| **Circle** | Circle something that needs attention |
+| **Freehand** | Sketch with a pen tool |
+| **Text** | Place a text label anywhere on the screenshot |
+
+Choose from 6 colors (red, blue, green, yellow, white, black) and use **Undo / Redo** (`Cmd+Z` / `Cmd+Shift+Z`) as you annotate.
+
+When you click **Done**, the annotated image attaches to your chat message. Send it with a prompt like `"fix this layout issue"` or `"make the circled section match this style"`.
+
+## Record your screen
+
+Click the **record button** (video icon) in the chat input to start recording the preview. A red indicator with a timer appears at the top of the preview.
+
+Interact with your app — click buttons, navigate pages, trigger the bug you want to show — then click **Stop**. Proyecta captures frames automatically (one per second, up to 30 seconds) and attaches them to your chat message.
+
+Screen recording is ideal for bugs that involve timing, animations, or multi-step interactions that a single screenshot can't capture.
+
+## Paste or drag images into chat
+
+The chat input accepts images directly — no need to use the annotate or record tools when you already have a screenshot:
+
+<Steps>
+  <Step title="Paste a screenshot">
+    Copy a screenshot with your OS shortcut (`Cmd+Shift+4` on Mac, `Win+Shift+S` on Windows) and paste directly into the chat input.
+  </Step>
+  <Step title="Drag an image file">
+    Drop any image file onto the chat input.
+  </Step>
+</Steps>
+
+| Property | Detail |
+| --- | --- |
+| Supported formats | PNG, JPEG, WebP, GIF |
+| Maximum size | 10 MB per image |
+
+## Automatic preview screenshots
+
+The AI can take its own screenshots of your preview at any time via a built-in `preview_screenshot` tool. Screenshot results appear inline in the chat. The AI invokes this automatically when it needs to verify its changes or understand the current state of your app.
+
+The screenshot tool can target specific routes (e.g., `/dashboard`, `/settings`) and captures dimensions, which helps the AI reason about layout and spacing.
+
+## When to use each tool
+
+<AccordionGroup>
+  <Accordion title="When should I use Visual Editor vs. annotate?">
+    Use **Visual Editor** mode when you want to point at a specific element precisely — it passes a structured reference to the AI. Use **annotate** when you need to mark up a screenshot to show spatial relationships, areas, or layout problems.
+  </Accordion>
+  <Accordion title="When should I annotate vs. just paste a screenshot?">
+    Annotate when you need to point at something specific — "this gap is too wide" or "move this here." Plain screenshots are fine when the issue is obvious from the image alone.
+  </Accordion>
+  <Accordion title="When should I record vs. annotate?">
+    Record when the issue involves interaction — a button that doesn't respond, a flicker during navigation, or a multi-step flow. For static layout issues, annotation is faster.
+  </Accordion>
+</AccordionGroup>

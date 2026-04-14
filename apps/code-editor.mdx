@@ -1,0 +1,65 @@
+---
+title: "Edit Your App's Source Code Directly in the Browser"
+sidebarTitle: "Code Editor"
+description: "The Code tab opens a full VS Code editor in the browser. Browse your file tree, use IntelliSense, and make precise manual edits alongside the AI."
+---
+
+The Code Editor gives you direct access to every file in your project through a full VS Code instance running in the browser. Switch to **Code** view in the builder toolbar to open it whenever you need to inspect, review, or precisely edit your source.
+
+## What you can do in the Code Editor
+
+- Browse your entire project file tree
+- Edit any file with full VS Code features — syntax highlighting, IntelliSense, and search
+- Install VS Code extensions
+- Use the keyboard shortcuts you already know
+
+## How saving works
+
+Changes save automatically as you edit. The live preview in the builder updates immediately to reflect your edits — no manual save or refresh required.
+
+## When to use the Code Editor
+
+The AI chat and [Visual Editor](/apps/visual-edit) are the recommended tools for most changes because the AI understands your app's architecture and coordinates edits across multiple files. Reach for the Code Editor when you need:
+
+- **Precise control** over a specific file the AI touched
+- **To review** the code the AI generated before publishing
+- **To make small manual adjustments** the AI missed or got wrong
+
+<Tip>
+You can switch freely between the AI chat, Visual Editor, and Code Editor — they all work on the same codebase. The AI sees every change you make in the Code Editor, so you can hand off back to AI chat at any point.
+</Tip>
+
+## Using the Code Editor alongside the AI
+
+The AI and the Code Editor are fully compatible. Edit a file manually, then ask the AI to continue from there — it picks up your changes automatically. There is no sync step or file reload required.
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="What happens if I break something?">
+    Use git to revert the change. You can also describe what went wrong to the AI — it will investigate the error and suggest a fix.
+  </Accordion>
+  <Accordion title="Can I use my own local IDE instead?">
+    The Code Editor runs entirely in the browser. Connecting a local VS Code installation is not currently supported. Extensions installed inside the browser editor are scoped to the browser session.
+  </Accordion>
+  <Accordion title="Does the Code Editor support all VS Code extensions?">
+    Most extensions work, but some that rely on native binaries or local system access may not function in the browser environment. Try installing the extension — if it does not behave as expected, the AI chat is the best fallback.
+  </Accordion>
+</AccordionGroup>
+
+## Related tools
+
+<CardGroup cols={2}>
+  <Card title="Visual Editor" icon="mouse-pointer" href="/apps/visual-edit">
+    Click elements to edit text, colors, and spacing without touching code.
+  </Card>
+  <Card title="Backend" icon="server" href="/apps/backend">
+    Monitor function logs, scheduled jobs, and runtime services.
+  </Card>
+  <Card title="Secrets & Env Vars" icon="lock" href="/apps/environments-and-secrets">
+    Store API keys securely and reference them in your code.
+  </Card>
+  <Card title="Database" icon="database" href="/apps/database">
+    Browse and manage your app's data from the builder.
+  </Card>
+</CardGroup>

@@ -1,0 +1,100 @@
+---
+title: "Proyecta Cloud: Hosting, Compute, and Infrastructure"
+description: "Full-stack hosting with isolated runtime pods, a real-time database, serverless functions, and built-in services — all managed for you."
+---
+
+Proyecta Cloud is the infrastructure that powers every Proyecta app. It provides hosting, a real-time database, serverless backend functions, authentication, AI Gateway, and email — bundled into a single platform so you don't need to configure any of it manually. View your usage and billing details at **Settings → Billing → Proyecta Cloud**.
+
+## What's included
+
+- **Isolated runtime pods** — each project gets its own container with a full Linux environment
+- **Real-time backend** — database, serverless functions, and authentication out of the box
+- **Infrastructure services** — PostgreSQL, Redis, MongoDB, and MySQL available as sidecar containers
+- **GitHub-backed code** — all your code stored in a repository under your own GitHub account
+- **Custom domains** — a free `*.proyecta.dev` subdomain, or bring your own domain
+
+Proyecta Cloud is built on enterprise-grade cloud infrastructure. US-based hosting is available now; EU and additional regions are planned.
+
+## Pricing
+
+Every plan includes a monthly allowance for each metric. On paid plans, usage beyond the allowance is billed at the overage rates below.
+
+| Metric | Free | Pro | Business |
+|--------|------|-----|----------|
+| **Function calls** | 200k/month | 5M/month, then $2.50/million | 5M/month, then $2.50/million |
+| **File storage** | 1 GB/month | 100 GB/month, then $0.035/GB-month | 100 GB/month, then $0.035/GB-month |
+| **Database storage** | 500 MB/month | 25 GB/month, then $0.27/GB-month | 25 GB/month, then $0.27/GB-month |
+| **Database bandwidth** | 1 GB/month | 25 GB/month, then $0.27/GB | 25 GB/month, then $0.27/GB |
+| **Vector embedding storage** | 100 MB/month | 1 GB/month, then $0.70/GB-month | 1 GB/month, then $0.70/GB-month |
+| **Vector embedding bandwidth** | 500 MB/month | 5 GB/month, then $0.14/1,000 query-GBs | 5 GB/month, then $0.14/1,000 query-GBs |
+| **Data egress** | 1 GB/month | 50 GB/month, then $0.16/GB | 50 GB/month, then $0.16/GB |
+| **Action compute (Node)** | 2 GB-hr/month | 25 GB-hr/month, then $0.42/GB-hr | 25 GB-hr/month, then $0.42/GB-hr |
+| **Action compute (V8)** | 2 GB-hr/month | 25 GB-hr/month, then $0.21/GB-hr | 25 GB-hr/month, then $0.21/GB-hr |
+| **AI Gateway** | Pay-as-you-go | Pay-as-you-go | Pay-as-you-go |
+
+<Note>
+  Enterprise plans are available with custom limits. [Contact sales](/company/contact) for details.
+</Note>
+
+## Managing costs
+
+### Auto top-up
+
+Go to **Settings → Billing → Proyecta Cloud** and configure auto-billing. Set a balance threshold and a top-up amount — when your balance drops below the threshold, credits are added automatically.
+
+### Usage alerts
+
+Proyecta sends you alerts at **50%, 75%, 90%, and 100%** of your monthly allowance for each metric, so you're never caught off guard by an unexpected overage.
+
+### Manual top-up
+
+Add credits manually at any time from the **Billing** settings page.
+
+## Reducing usage
+
+<AccordionGroup>
+  <Accordion title="Database bandwidth">
+    Avoid scanning entire tables. Use indexes, add `WHERE` clauses, and paginate large result sets. Ask the AI: `"Review my database queries and add indexes where they're missing."`
+  </Accordion>
+  <Accordion title="Action compute">
+    Move expensive computation to V8 actions where possible — they cost $0.21/GB-hr versus $0.42/GB-hr for Node actions. Avoid long-running Node actions that hold memory between requests.
+  </Accordion>
+</AccordionGroup>
+
+## Runtime lifecycle
+
+Your development environment transitions through these states automatically:
+
+| State | Description |
+|-------|-------------|
+| **Running** | Active and ready |
+| **Suspended** | Paused after 60 minutes of inactivity — resumes in seconds |
+| **Archived** | Moved to cold storage after 24 hours suspended — takes longer to restore |
+| **Terminated** | Permanently stopped |
+
+<Tip>
+  Published apps run on separate, production-grade infrastructure. A suspended or archived dev machine has no effect on your live site.
+</Tip>
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="How does this compare to serverless hosting?">
+    Proyecta uses container-based isolation during development (giving you a full shell environment) and serverless infrastructure in production (giving you automatic scaling). You get the best of both without managing either.
+  </Accordion>
+  <Accordion title="Can I host my app somewhere else?">
+    Yes. Your code lives in a GitHub repository under your account — it's a standard git repo. Deploy it to Vercel, Netlify, AWS, or any other host using that provider's standard deployment workflow.
+  </Accordion>
+  <Accordion title="What regions are available?">
+    US-based hosting is available now. EU and additional regions are on the roadmap.
+  </Accordion>
+</AccordionGroup>
+
+<CardGroup cols={2}>
+  <Card title="Dev Machines" icon="computer" href="/apps/dev-machines">
+    Learn how isolated development environments work.
+  </Card>
+  <Card title="Billing & Credits" icon="credit-card" href="/platform/billing-and-credits">
+    View plans, upgrade options, and overage billing.
+  </Card>
+</CardGroup>

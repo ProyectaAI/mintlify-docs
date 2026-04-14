@@ -1,0 +1,163 @@
+---
+title: "Send Web Push Notifications to Your App's Users"
+sidebarTitle: "Push Notifications"
+description: "Compose and send browser and PWA push notifications from the Push panel or SDK — VAPID keys, subscriptions, and topics all handled for you."
+---
+
+Every Proyecta app can send browser and PWA push notifications to its users. The Proyecta SDK handles VAPID key generation, subscription storage, topic management, and delivery — no third-party account required. Use the **Push** panel in the builder for one-off sends, or call the SDK for event-triggered and programmatic notifications.
+
+## The Push panel
+
+Switch to the **Push** tab in the builder toolbar. The panel has three tabs:
+
+| Tab | What it's for |
+| --- | --- |
+| **Overview** | Subscriber count, permission breakdown, and topic list with subscriber counts |
+| **Compose** | Write a notification (title, body, target), preview it, and send — no code needed |
+| **History** | Browse past notifications with delivery stats (sent, failed) |
+
+The Compose tab is the fastest way to send a one-off notification such as a maintenance announcement or a test push. For event-triggered or scheduled sends, use the SDK.
+
+## How it works
+
+Push notifications in Proyecta follow the standard Web Push lifecycle:
+
+<Steps>
+  <Step title="Enable">
+    Generate VAPID keys for your app — a one-time operation.
+  </Step>
+  <Step title="Subscribe">
+    Register a user's device to receive notifications.
+  </Step>
+  <Step title="Identify">
+    Link an anonymous subscription to a signed-in user.
+  </Step>
+  <Step title="Send">
+    Deliver a notification to specific users, topics, or everyone.
+  </Step>
+</Steps>
+
+All four steps live under `proyecta.pushNotifications` in the SDK.
+
+## Enable push for your app
+
+The first call generates a VAPID public key that the browser needs to create a subscription. It's idempotent — calling it again returns the same key.
+
+```ts
+import Proyecta from '@proyecta-ai/sdk';
+
+const proyecta = new Proyecta({ apiKey: process.env.PROYECTA_API_KEY });
+
+const { vapidPublicKey } = await proyecta.pushNotifications.enable();
+```
+
+<Tip>
+  Ask the AI: `"Enable push notifications and store the VAPID key in a PROYECTA_VAPID_PUBLIC_KEY env var"`
+</Tip>
+
+## Subscribe a user's device
+
+On the client, create a Web Push subscription with the VAPID key, then send it to the server along with a `visitorId`:
+
+```ts
+// client side
+const registration = await navigator.serviceWorker.ready;
+const subscription = await registration.pushManager.subscribe({
+  userVisibleOnly: true,
+  applicationServerKey: PROYECTA_VAPID_PUBLIC_KEY,
+});
+
+// server side (or via your API route)
+const { secret } = await proyecta.pushNotifications.subscribe({
+  visitorId: currentUser?.id ?? generateAnonymousId(),
+  subscription: {
+    endpoint: subscription.endpoint,
+    keys: {
+      auth: subscription.keys.auth,
+      p256dh: subscription.keys.p256dh,
+    },
+  },
+});
+// Store `secret` on the client — it's required to unsubscribe or identify later
+```
+
+Use an authenticated user ID as the `visitorId` if the user is signed in, or a generated UUID for anonymous visitors.
+
+## Identify subscriptions to users
+
+When an anonymous visitor signs in, link their existing subscription to the authenticated user ID so subsequent `send` calls can target them by user:
+
+```ts
+await proyecta.pushNotifications.identify({
+  secret: storedSubscriptionSecret,
+  userId: authenticatedUser.id,
+});
+```
+
+## Send a notification
+
+You can target specific visitor IDs, topics, both (as a union), or broadcast to everyone. Omit both `visitorIds` and `topics` to broadcast to all subscribers.
+
+<Tabs>
+  <Tab title="By user">
+    ```ts
+    await proyecta.pushNotifications.send({
+      title: 'Your order has shipped',
+      body: 'Track it from your dashboard',
+      visitorIds: ['user_123', 'user_456'],
+      data: { orderId: 'ord_789' }, // custom payload
+    });
+    ```
+  </Tab>
+  <Tab title="By topic">
+    ```ts
+    await proyecta.pushNotifications.send({
+      title: 'New feature just dropped',
+      topics: ['product-updates'],
+      icon: 'https://cdn.example.com/icon.png',
+      image: 'https://cdn.example.com/banner.png',
+    });
+    ```
+  </Tab>
+  <Tab title="Broadcast">
+    ```ts
+    await proyecta.pushNotifications.send({
+      title: 'Scheduled maintenance at 2am UTC',
+    });
+    ```
+  </Tab>
+</Tabs>
+
+`send` returns `{ sent, failed }` so you know how delivery went.
+
+## Topics
+
+Users can subscribe to named topics (e.g. `product-updates`, `weekly-digest`) via the `proyecta.pushNotifications.topics` sub-resource. Topics are the recommended way to manage opt-in lists — you don't need to track visitor IDs yourself for broadcast-style updates.
+
+## Unsubscribe
+
+Remove a subscription using the `secret` returned from `subscribe`:
+
+```ts
+await proyecta.pushNotifications.unsubscribe({ secret });
+```
+
+## Let the AI wire it up
+
+- `"Enable push notifications for my app. Register a service worker, call pushNotifications.subscribe on the client after the user grants permission, and store the secret in localStorage."`
+- `"Send a push to all users subscribed to the 'breaking-news' topic whenever a new article is published."`
+- `"After a user signs in, call pushNotifications.identify to link their anonymous subscription to their user ID."`
+
+## Caveats
+
+<Warning>
+  Push notifications only work on the **published** version of your app because browsers require HTTPS on a real origin. Preview traffic inside the builder does not fire real pushes.
+</Warning>
+
+- **iOS requires a PWA.** On iOS 16.4+, Web Push only works from an installed Progressive Web App (added to the home screen), not from Safari directly.
+- **Permission is a one-shot.** If a user denies notification permission, browsers don't allow re-prompting programmatically. You have to guide them to their browser or device settings.
+
+## Coming soon
+
+- **Scheduled sends** — send automatically based on app events or a defined schedule.
+- **Deep linking** — open a specific screen in the app when the notification is tapped.
